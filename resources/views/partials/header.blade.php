@@ -39,8 +39,17 @@
                         <div class="header-account flex align-center">
                             <div class="register ml--18">
                                 <div class="flex align-center">
-                                    <a  href="/register" role="button">Register</a>
-                                    <a  href="/login" role="button">Login</a>
+                                    @auth
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <button type="submit" class="btn-logout" style="background: none; border: none; padding: 0; color: inherit; cursor: pointer;">
+                                                Выход
+                                            </button>
+                                        </form>
+                                    @else
+                                        <a href="{{ route('register') }}" role="button">Register</a>
+                                        <a href="{{ route('login') }}" role="button">Login</a>
+                                    @endauth
                                 </div>
                             </div>
 
