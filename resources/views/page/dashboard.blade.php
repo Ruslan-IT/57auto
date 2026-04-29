@@ -83,8 +83,8 @@
 
                     </ul>
 
-                    <form method="POST" action="http://57auto.local/logout">
-                        <input type="hidden" name="_token" value="ImulG8Bct0X7UinTl5nqwEhR9DlIss3B6hThM0Oo" autocomplete="off">
+                    <form method="POST" action="/logout">
+                        @csrf
                         <button type="submit"
                                 class="w-full text-right px-4 py-2 text-lg font-semibold text-white bg-gradient-to-r from-red-500 to-red-600 rounded-lg hover:opacity-90 transition">
                             Выход
