@@ -20,12 +20,5 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
-    {
-        View::composer('layouts.tasks', function ($view) {
-            $view->with('topics', Topic::with('tasks')->get());
-        });
-
-        View::share('settings', Setting::first());
-    }
+   
 }
