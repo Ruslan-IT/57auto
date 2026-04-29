@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 
 Route::get('/dashboard', function () {
     return view('page.dashboard');
-})->middleware('auth')->name('dashboard');
+})->middleware('auth', 'verified')->name('dashboard');
 
 
 
