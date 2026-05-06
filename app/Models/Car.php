@@ -11,7 +11,7 @@ class Car extends Model
         'category_id', 'brand_id', 'model_id', 'lot', 'title', 'year', 'month',
         'mileage', 'body_type', 'engine_type', 'engine_power', 'engine_power_30min',
         'engine_volume', 'color', 'transmission', 'drive', 'price_china',
-        'price_russia', 'is_min_util', 'is_passable', 'source_url', 'source_site',
+        'price_russia', 'is_min_util', 'is_passable', 'source_url', 'slug', 'source_site',
         'description'
     ];
 
