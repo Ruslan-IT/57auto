@@ -26,7 +26,9 @@ class Car extends Model
         parent::boot();
 
         static::creating(function ($car) {
-            $car->slug = Str::slug($car->name);
+            if (!$car->slug) {
+                $car->slug = Str::slug($car->title) . '-' . uniqid();
+            }
         });
     }
 
