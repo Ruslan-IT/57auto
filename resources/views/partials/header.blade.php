@@ -8,9 +8,9 @@
                     <div class="inner-container flex justify-space align-center">
                         <!-- Logo Box -->
                         <div class="logo-box flex">
-                            <div class="logo"><a href="index.html">
+                            <div class="logo"><a href="/l">
 
-                                    <img src="assets/images/logo/logo2@.png" alt="Logo"></a></div>
+                                    <img src="/assets/images/logo/logo2@.png" alt="Logo"></a></div>
 
                         </div>
                         <div class="nav-outer flex align-center">
