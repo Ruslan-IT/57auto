@@ -14,9 +14,6 @@ class CategoriesTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->sortable(),
                 TextColumn::make('name')
                     ->label('Название категории')
                     ->searchable()

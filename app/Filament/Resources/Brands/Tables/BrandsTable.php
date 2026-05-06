@@ -14,9 +14,7 @@ class BrandsTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->sortable(),
+
                 TextColumn::make('name')
                     ->label('Название бренда')
                     ->searchable()

@@ -17,8 +17,6 @@ class CarsTable
     {
         return $table
             ->columns([
-                TextColumn::make('id')->sortable(),
-                TextColumn::make('lot')->searchable(),
                 TextColumn::make('brand.name')->label('Марка'),
                 TextColumn::make('model.name')->label('Модель'),
                 TextColumn::make('year'),
