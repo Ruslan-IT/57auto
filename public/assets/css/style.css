@@ -287,7 +287,15 @@ body.dark-theme a {
 }
 
 body.dark-theme .search-form-widget .tab-content {
+    background-color: #1e1e2f;
+}
 
+body.dark-theme  .tab-content {
+    background-color: #1e1e2f;
+}
+
+body.dark-theme  .inner-group.grid {
+    padding: 28px;
     background-color: #1e1e2f;
 }
 
@@ -395,6 +403,36 @@ body.dark-theme .widget-best-deals {
     background-color: #111111;
 }
 
+body.dark-theme .tf-car-service .content .description ul li.listing-information i {
+    color: #ffffff;
+}
+
+body.dark-theme .post-property .wrap-car-overview .listing-info .item .listing-infor-box .content-listing-info .listing-info-title{
+    color: #ffffff;
+}
+
+body.dark-theme .author-contact-listing-wrap{
+    background-color: #1e1e2f;
+}
+body.dark-theme .form-contact-admin .group-form textarea{
+    background-color: #2c2c3a;
+}
+
+body.dark-theme  .author-contact-listing-wrap .author-contact-wrap .author-contact-info .number-phone{
+    color: #ffffff;
+}
+
+body.dark-theme  .wrap-property-car .box-1 .title-heading{
+    color: #ffffff;
+}
+
+body.dark-theme  .wrap-property-car .box-2 .price-wrap .price-sale{
+    color: #ffffff;
+}
+
+body.dark-theme  .wrap-property-car .box-1 .icon-box-info .info > span{
+    color: #ffffff;
+}
 
 
 /* Модальные окна */
@@ -449,6 +487,15 @@ body.dark-theme .theme-switch:hover {
     background-color: rgba(255,255,255,0.2);
 }
 
+body.dark-theme .search-form-widget ul li .nav-link.active {
+    background-color: #F5F5F5;
+    color: #595960;
+}
+
+body.dark-theme .search-form-widget ul li .nav-link {
+    background-color: #0A1C26;
+    color: #ffffff;
+}
 
 
 
@@ -10156,3 +10203,29 @@ a.mapboxgl-ctrl-logo {
 /*-------------- Font ----------------- */
 
 /*# sourceMappingURL=style.css.map */
+
+
+.widget-explore-car {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.widget-best-deals {
+    padding-top: 10px;
+    padding-bottom: 110px;
+    background-color: #F2F5FB;
+}
+
+
+.flash-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #16a34a;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    z-index: 9999;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}

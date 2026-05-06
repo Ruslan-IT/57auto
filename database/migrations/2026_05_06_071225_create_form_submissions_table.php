@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //$table->boolean('is_premium')->default(false);
+        Schema::create('form_submissions', function (Blueprint $table) {
+            $table->id();
+            $table->string('type'); // тип формы (test_drive, offer и т.д.)
+            $table->json('data');   // все поля формы
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('is_premium');
-        });
+        Schema::dropIfExists('form_submissions');
     }
 };

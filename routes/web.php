@@ -4,6 +4,8 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FormController;
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WebhookController;
@@ -20,11 +22,22 @@ Route::get('/dashboard', function () {
 })->middleware('auth', 'verified')->name('dashboard');
 
 
+Route::get('/', [IndexController::class, 'index'])->name('home');
+Route::get('/car/{id}', [IndexController::class, 'show'])->name('car.show'); // <-- добавляем
+
+Route::get('/filter', [IndexController::class, 'filter'])->name('filter');
 
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+
+Route::get('/api/models/{brandId}', function($brandId) {
+    return App\Models\CarModel::where('brand_id', $brandId)->get(['id', 'name']);
+});
+
+Route::post('/form-submit', [FormController::class, 'submit'])->name('form.submit');
+
+
+
+
 
 Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
 

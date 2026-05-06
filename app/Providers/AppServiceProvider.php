@@ -21,4 +21,12 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
 
+    public function boot(){
+
+        $settings = Setting::first();
+
+        View::share('settings', $settings);
+
+    }
+
 }

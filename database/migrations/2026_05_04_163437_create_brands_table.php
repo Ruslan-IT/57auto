@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //$table->boolean('is_premium')->default(false);
+        Schema::create('brands', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');        // BYD, Chery, Hyundai и т.д.
+            $table->string('slug')->unique();
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('is_premium');
-        });
+        Schema::dropIfExists('brands');
     }
 };

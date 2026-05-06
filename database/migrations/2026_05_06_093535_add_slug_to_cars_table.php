@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //$table->boolean('is_premium')->default(false);
+        Schema::table('cars', function (Blueprint $table) {
+            $table->string('slug')->unique()->after('id');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('is_premium');
+        Schema::table('cars', function (Blueprint $table) {
+            //
         });
     }
 };

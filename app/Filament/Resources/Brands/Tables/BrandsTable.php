@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Tasks\Tables;
+namespace App\Filament\Resources\Brands\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -8,7 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class TasksTable
+class BrandsTable
 {
     public static function configure(Table $table): Table
     {
@@ -16,25 +16,25 @@ class TasksTable
             ->columns([
                 TextColumn::make('id')
                     ->label('ID')
-                    ->formatStateUsing(fn ($state) => $state - 63)
-                    ->searchable(),
-                TextColumn::make('title')->searchable(),
-                TextColumn::make('seo_title')->searchable(),
-                TextColumn::make('topic.title')
-                    ->label('Тема'),
-
+                    ->sortable(),
+                TextColumn::make('name')
+                    ->label('Название бренда')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('slug')
+                    ->label('Slug')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('created_at')
+                    ->label('Дата создания')
+                    ->dateTime()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                \Filament\Tables\Filters\SelectFilter::make('topic_id')
-                    ->label('Тема')
-                    ->relationship('topic', 'title') // 🔥 ключевая строка
+                //
             ])
-            ->persistFiltersInSession()
-
             ->recordActions([
                 EditAction::make(),
             ])
-
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
