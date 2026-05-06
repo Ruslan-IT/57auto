@@ -158,6 +158,7 @@ class CarForm
                                     ->label('Изображение')
                                     ->image()
                                     ->disk('public')
+                                    ->imageResizeMode(null)
                                     ->directory('cars')
                                     ->required(),
                                 TextInput::make('sort_order')
