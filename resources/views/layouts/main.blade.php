@@ -28,7 +28,7 @@
     <meta name="twitter:image" content="@yield('seo_image', asset('logo2.png'))">
 
     <!-- Favicon -->
-    <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('favicon1.png') }}" type="image/png">
 
     <link rel="stylesheet" type="text/css" href="/assets/css/style-2.css">
 
