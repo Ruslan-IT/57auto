@@ -30,7 +30,7 @@
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">
 
-    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/style-2.css">
 
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="/assets/images/logo/favicon.png">
@@ -158,6 +158,13 @@
 
 <script>
     $(document).ready(function() {
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
         let currentCategoryId = $('.tab-pane.active').data('category-id') || {{ $activeCategory->id ?? 0 }};
 
         // Инициализация слайдера цен
@@ -182,6 +189,7 @@
             let brandId = $(this).val();
             let modelSelect = $('#model-select');
             modelSelect.prop('disabled', true).html('<option value="">Загрузка...</option>');
+
             if (brandId) {
                 $.get('/api/models/' + brandId, function(models) {
                     let options = '<option value="">Все модели</option>';
@@ -189,10 +197,13 @@
                         options += `<option value="${model.id}">${model.name}</option>`;
                     });
                     modelSelect.html(options).prop('disabled', false);
+
                 }).fail(function() {
                     modelSelect.html('<option value="">Ошибка загрузки</option>');
                 });
-            } else {
+            }
+
+            else {
                 modelSelect.html('<option value="">Сначала выберите марку</option>').prop('disabled', true);
             }
         });
@@ -206,21 +217,48 @@
         // Отправка фильтра
         $('#filter-form').on('submit', function(e) {
             e.preventDefault();
+
+
             applyFilter();
+
+
         });
 
         function applyFilter() {
+
             let formData = {
                 category_id: currentCategoryId,
                 brand_id: $('#brand-select').val(),
                 model_id: $('#model-select').val(),
-                price_min: $('#price_min').val(),
-                price_max: $('#price_max').val(),
+                price_min: Number($('#price_min').val()) || 0,
+                price_max: Number($('#price_max').val()) || 10000000,
             };
 
-            $.get('/filter', formData, function(response) {
-                $('#cars-container').html(response.html);
-                initCarGalleries();
+            let button = document.querySelector('.button-search-listing');
+
+            // loader START
+            button.textContent = 'Загружаю...';
+            button.disabled = true;
+
+            $.ajax({
+                url: '/filter',
+                method: 'POST',
+                data: formData,
+
+                success: function(response) {
+                    $('#cars-container').html(response.html);
+                    initCarGalleries();
+                },
+
+                error: function() {
+                    alert('Ошибка загрузки автомобилей');
+                },
+
+                complete: function() {
+                    // loader END (ВАЖНО — всегда срабатывает)
+                    button.textContent = 'Поиск';
+                    button.disabled = false;
+                }
             });
         }
 
@@ -279,6 +317,79 @@
     // Например, в успешном ответе фильтра:
     // $('#cars-container').html(response.html);
     // initCarGalleries();
+</script>
+
+
+
+<script>
+
+
+
+    $('#calculator-form').on('submit', function(e){
+
+
+        e.preventDefault();
+
+        $('#calculator-loader').show();
+
+        $.ajax({
+
+            url: '{{ route('calculator.calculate') }}',
+
+            type: 'POST',
+
+            data: $(this).serialize(),
+
+            success: function(response){
+
+                $('#calculator-loader').hide();
+
+                if(response.success){
+
+                    $('#calculator-result').show();
+
+                    $('.js-info').text(
+                        Number(response.data.currency_rate).toLocaleString('ru-RU')
+                    );
+
+                    $('.js-car-price').text(
+                        Number(response.data.car_price_rub).toLocaleString('ru-RU')
+                    );
+
+                    $('.js-country-expenses').text(
+                        Number(response.data.country_expenses).toLocaleString('ru-RU')
+                    );
+
+                    $('.js-bank-fee').text(
+                        Number(response.data.bank_fee).toLocaleString('ru-RU')
+                    );
+
+                    $('.js-customs').text(
+                        Number(response.data.customs).toLocaleString('ru-RU')
+                    );
+
+                    $('.js-total').text(
+                        Number(response.data.total).toLocaleString('ru-RU')
+                    );
+
+                }
+
+            },
+
+            error: function(xhr){
+
+                $('#calculator-loader').hide();
+
+                console.log(xhr.responseJSON);
+
+                alert('Ошибка расчёта');
+
+            }
+
+        });
+
+    });
+
 </script>
 
 </body>

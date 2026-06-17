@@ -8,9 +8,13 @@
                     <div class="inner-container flex justify-space align-center">
                         <!-- Logo Box -->
                         <div class="logo-box flex">
-                            <div class="logo"><a href="/l">
+                            <div class="logo">
 
-                                    <img src="/assets/images/logo/logo2@.png" alt="Logo"></a></div>
+                                <a href="/">
+                                    <img src="{{ asset('assets/images/logo/logo2.png') }}" alt="Logo1">
+                                </a>
+
+                            </div>
 
                         </div>
                         <div class="nav-outer flex align-center">
@@ -67,8 +71,8 @@
 
 
                             <div class="flat-bt-top sc-btn-top ml--20 ">
-                                <a class="btn-icon-list" href="car-list.html">
-                                    <span>Listing Yours</span>
+                                <a class="btn-icon-list" href="/calculator">
+                                    <span>Калькулятор</span>
                                     <i class="icon-add-button-1"></i>
                                 </a>
                             </div>
@@ -89,7 +93,7 @@
         <div class="menu-backdrop"></div>
         <nav class="menu-box">
             <div class="nav-logo">
-                <a href="index.html"><img src="assets/images/logo/logo2@.png" alt="Логотип Motorx"></a>
+                <a href="/"><img src="/assets/images/logo/logo2@.png" alt="Логотип Motorx"></a>
             </div>
             <div class="bottom-canvas">
                 <div class="menu-outer">

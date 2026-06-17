@@ -397,6 +397,10 @@ body.dark-theme .btn-read-more .more-link  {
     color: #ffffff;
 }
 
+body.dark-theme .label-dealer-content, .dealer-title{
+    color: #ffffff!important;
+}
+
 
 
 body.dark-theme .widget-best-deals {
@@ -433,6 +437,15 @@ body.dark-theme  .wrap-property-car .box-2 .price-wrap .price-sale{
 body.dark-theme  .wrap-property-car .box-1 .icon-box-info .info > span{
     color: #ffffff;
 }
+
+
+
+body.dark-theme .country-info{
+    background-color: #222;
+    color: #ffffff;
+}
+
+
 
 
 /* Модальные окна */
@@ -495,6 +508,14 @@ body.dark-theme .search-form-widget ul li .nav-link.active {
 body.dark-theme .search-form-widget ul li .nav-link {
     background-color: #0A1C26;
     color: #ffffff;
+}
+
+.card {
+    background-color: #fff!important;
+}
+
+body.dark-theme .card  {
+    background-color: #222!important;
 }
 
 
@@ -10202,7 +10223,7 @@ a.mapboxgl-ctrl-logo {
 }
 /*-------------- Font ----------------- */
 
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=style-2.css.map */
 
 
 .widget-explore-car {
@@ -10228,4 +10249,21 @@ a.mapboxgl-ctrl-logo {
     z-index: 9999;
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     transition: 0.3s;
+}
+
+.footer-top .title-footer-top {
+    font-size: 27px;
+}
+
+.country-info{
+    background: #ffff;
+    color: #6c757d;
+    border-radius: 10px;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    /*border-left: 4px solid #ffc4a0;*/
+}
+
+.country-info small{
+    line-height: 1.8;
 }

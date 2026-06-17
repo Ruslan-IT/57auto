@@ -29,53 +29,41 @@ class IndexController extends Controller
             $cars = collect();
         }
 
+        // Последние автомобили
+        $latestCars = Car::with(['brand', 'model', 'images'])
+            ->latest() // ORDER BY created_at DESC
+            ->limit(6)
+            ->get();
+
+        $usedCars = Car::with(['brand', 'model', 'images'])
+            ->where('mileage', '>', 0)
+            ->latest()
+            ->limit(6)
+            ->get();
+
+        $chinaCars = Car::with(['brand', 'model', 'images'])
+            ->whereHas('category', function ($q) {
+                $q->where('name', 'Китайские');
+            })
+            ->latest()
+            ->limit(6)
+            ->get();
+
         // Справочники для фильтров (марки и модели будут подгружаться через JS)
         $brands = Brand::orderBy('name')->get();
 
-        return view('welcome', compact('categories', 'activeCategory', 'cars', 'brands'));
+
+
+        return view('welcome', compact(
+            'categories',
+            'activeCategory',
+            'cars',
+            'brands',
+            'latestCars',
+            'usedCars',
+            'chinaCars',
+        ));
     }
-
-    /**
-     * AJAX-фильтр автомобилей по категории, марке, модели, цене.
-     */
-    public function filter(Request $request)
-    {
-        $categoryId = $request->input('category_id');
-        $brandId    = $request->input('brand_id');
-        $modelId    = $request->input('model_id');
-        $priceMin   = $request->input('price_min');
-        $priceMax   = $request->input('price_max');
-
-        $query = Car::with(['brand', 'model', 'images']);
-
-        if ($categoryId) {
-            $query->where('category_id', $categoryId);
-        }
-
-        if ($brandId) {
-            $query->where('brand_id', $brandId);
-        }
-
-        if ($modelId) {
-            $query->where('model_id', $modelId);
-        }
-
-        if ($priceMin) {
-            $query->where('price_russia', '>=', (int) $priceMin);
-        }
-
-        if ($priceMax) {
-            $query->where('price_russia', '<=', (int) $priceMax);
-        }
-
-        $cars = $query->orderBy('created_at', 'desc')->limit(12)->get();
-
-        // Возвращаем только HTML-код карточек
-        return response()->json([
-            'html' => view('partials.car_cards', compact('cars'))->render(),
-        ]);
-    }
-
 
 
 

@@ -12,10 +12,27 @@ class FormController extends Controller
     public function submit(Request $request)
     {
 
+
         $data = $request->except('_token');
         $type = $request->input('type');
 
+        switch ($type) {
 
+            case 'homepage_contact':
+                $subject = 'Заявка с главной страницы';
+                break;
+
+            case 'callback':
+                $subject = 'Обратный звонок';
+                break;
+
+            case 'footer_consultation':
+                $subject = 'Получить консультацию c главной страницы';
+                break;
+
+            default:
+                $subject = 'Новая заявка';
+        }
 
 
         $submission = FormSubmission::create([
@@ -26,10 +43,16 @@ class FormController extends Controller
         $settings = Setting::first();
 
 
-        Mail::send('emails.form', ['data' => $data, 'type' => $type], function ($message) use ($type, $settings) {
-            $message->to($settings->email)
-                ->subject('Новая заявка: ' . $type);
-        });
+        Mail::send(
+            'emails.form',
+            ['data' => $data, 'type' => $type],
+            function ($message) use ($settings, $subject) {
+
+                $message->to($settings->email)
+                    ->subject($subject);
+
+            }
+        );
 
         return back()->with('success', 'Заявка отправлена');
 

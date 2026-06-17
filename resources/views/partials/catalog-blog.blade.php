@@ -1,6 +1,7 @@
 <div class="widget-explore-car">
     <div class="themesflat-container">
         <div class="search-form-widget">
+
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 @foreach($categories as $cat)
                     <li class="nav-item" role="presentation">
@@ -35,22 +36,26 @@
             <form id="filter-form" class="mt-4">
                 <div class="inner-group grid d-flex gap-3  align-items-end">
                     <div class="form-group" style="min-width: 150px;">
-                        <label>Марка</label>
-                        <select name="brand_id" id="brand-select" class="form-select">
+                        {{--<label>Марка</label>--}}
+                        <select name="brand_id" id="brand-select" class="form-select nice-select">
+
                             <option value="">Все марки</option>
+
                             @foreach($brands as $brand)
-                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                <option class="option " value="{{ $brand->id }}">{{ $brand->name }}</option>
                             @endforeach
+
                         </select>
                     </div>
                     <div class="form-group" style="min-width: 150px;">
-                        <label>Модель</label>
-                        <select name="model_id" id="model-select" class="form-select" disabled>
+                       {{-- <label>Модель</label>--}}
+                        <select name="model_id" id="model-select" class="form-select nice-select" disabled>
                             <option value="">Сначала выберите марку</option>
                         </select>
                     </div>
                     <div class="form-group" style="min-width: 200px;">
-                        <label>Цена (₽)</label>
+
+                        <p class="price-range">Цена</p>
                         <div id="price-slider" style="margin-top: 10px;"></div>
                         <div class="d-flex justify-content-between mt-2">
                             <input type="hidden" name="price_min" id="price_min" value="0">
@@ -60,7 +65,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-danger button-search-listing">
+                        <button type="submit" class=" button-search-listing button-search-listing">
                             <i class="icon-search-1"></i> Поиск
                         </button>
                     </div>
@@ -76,6 +81,9 @@
         <div class="car-list-item" id="cars-container">
             @include('partials.car_cards', ['cars' => $cars])
         </div>
+
+
+
         <div class="row mt-5">
             <div class="col-md-12 text-center">
                 <div class="btn-main">

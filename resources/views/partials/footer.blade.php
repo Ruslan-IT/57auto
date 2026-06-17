@@ -1,115 +1,237 @@
-<!-- Footer -->
+
 <footer id="footer" class="clearfix bg-footer2 pd-t81 re-hi">
+
     <div class="themesflat-container">
+
         <div class="row footer-top">
-            <div class="col-lg-6 col-md-12 col-12 pd-r80 ">
-                <h2 class="title-footer-top">Do you Have <span class="red-title">something</span> to sell
-                    through us?</h2>
-                <img class="icon-ft" src="/assets/images/page/shape-footer.png" alt="">
+
+            <div class="col-lg-6 col-md-12 col-12 pd-r80">
+
+                <h2 class="title-footer-top">
+                    Подобрать <span class="red-title">автомобиль</span> под ваш бюджет?
+                </h2>
+
+
+
             </div>
+
             <div class="col-lg-6 col-md-12 col-12 t-al-right pt-20">
-                <a href="#" class="btn-sell">Sell your car today</a>
+
+                <a href="#home_page_contact" class="btn-sell">
+                    Оставить заявку
+                </a>
+
             </div>
+
         </div>
+
         <div class="row footer-main">
+
+            <!-- О компании -->
             <div class="col-lg-3 col-md-6 col-12">
+
                 <div class="widget widget-info">
-                    <img src="assets/images/logo/logo2@.png" alt="Logo Footer">
-                    <p>The world’s first and largest digital market for crypto collectibles and non-fungible
-                        (NFTs). Buy</p>
+
+                    <img src="{{ asset('assets/images/logo/logo2@.png') }}"
+                         alt="Logo Footer">
+
+                    <p>
+                        Помогаем подобрать и привезти автомобили из Китая,
+                        Кореи и ОАЭ под заказ.
+                    </p>
+
                     <ul>
+
                         <li>
                             <i class="icon-Vector1"></i>
-                            <p>14 New South Head Rd,Triple 3148London, UK</p>
+
+                            <p>
+                                Москва, Россия
+                            </p>
                         </li>
+
                         <li>
                             <i class="icon-Group-1"></i>
-                            <p>needhelp@company.com</p>
+
+                            <p>
+                                {{ $settings->email }}
+                            </p>
                         </li>
+
                     </ul>
+
                 </div>
+
             </div>
 
+            <!-- Меню -->
             <div class="col-lg-3 col-md-6 col-12">
+
                 <div class="widget widget-menu pl-60">
-                    <h3>Quick Links</h3>
+
+                   {{-- <h3>Каталог</h3>
+
                     <ul class="box-menu">
-                        <li><a href="#">Dealer Locator</a></li>
-                        <li><a href="#">Service Locator</a></li>
-                        <li><a href="#">Pre-owned</a></li>
-                        <li><a href="#">Accessori Originali</a></li>
-                        <li><a href="#">Spare Parts</a></li>
-                        <li><a href="#"> Services</a></li>
-                    </ul>
+                        <li><a href="#">Авто из Китая</a></li>
+                        <li><a href="#">Авто из Кореи</a></li>
+                        <li><a href="#">Авто из ОАЭ</a></li>
+                        <li><a href="#">Новые поступления</a></li>
+                        <li><a href="#">Авто с пробегом</a></li>
+                    </ul>--}}
+
                 </div>
+
             </div>
 
+            <!-- Информация -->
             <div class="col-lg-3 col-md-6 col-12">
+
                 <div class="widget widget-menu pl-30">
-                    <h3>Research</h3>
+
+                    <h3>Информация</h3>
+
                     <ul class="box-menu">
-                        <li><a href="#">Build & Price A Vehicle</a></li>
-                        <li><a href="#">Compare Models</a></li>
-                        <li><a href="#"> Warranty</a></li>
-                        <li><a href="#">Download a Brochure</a></li>
-                        <li><a href="#">Sign-Up for Updates</a></li>
-                        <li><a href="#">Mail Me a Brochure</a></li>
+                        <li><a href="#">О компании</a></li>
+                        <li><a href="#">Доставка</a></li>
+                        <li><a href="#">Растаможка</a></li>
+                        <li><a href="#">Контакты</a></li>
+                        <li><a href="#">Политика конфиденциальности</a></li>
                     </ul>
+
                 </div>
+
             </div>
 
+            <!-- Форма -->
             <div class="col-lg-3 col-md-6 col-12">
+
                 <div class="widget widget-menu widget-form">
-                    <h3>Newsletter</h3>
-                    <form method="post" class="email-footer-form form-submit" action="#" accept-charset="utf-8">
+
+                    <h3>Получить консультацию</h3>
+
+                    <form method="POST"
+                          action="{{ route('form.submit') }}"
+                          class="email-footer-form">
+
+                        @csrf
+
+                        <input type="hidden"
+                               name="type"
+                               value="footer_consultation">
+
                         <div class="text-wrap clearfix">
+
                             <fieldset class="email-wrap style-text">
-                                <input type="email" class="tb-my-input" name="email"
-                                       placeholder="Enter Email Adress" required="">
+
+                                <input type="text"
+                                       class="tb-my-input"
+                                       name="name"
+                                       placeholder="Ваше имя"
+                                       required>
+
                             </fieldset>
-                            <button name="submit" type="submit" class="btn-submit-email">
-                                <i class="icon-Group"></i>
-                            </button>
+
+                            <fieldset class="email-wrap style-text mt-3">
+
+                                <input type="tel"
+                                       class="tb-my-input"
+                                       name="phone"
+                                       placeholder="Телефон"
+                                       required>
+
+                            </fieldset>
+
+                            <fieldset class="email-wrap style-text mt-3">
+
+                                <textarea name="message"
+                                          class="tb-my-input"
+                                          placeholder="Ваш вопрос"></textarea>
+
+                            </fieldset>
+
+                            <fieldset class="email-wrap style-text mt-3">
+
+                                <button type="submit" class=" tb-my-input">
+
+                                    Отправить
+
+                                </button>
+
+                            </fieldset>
+
+
+
+
+
+
                         </div>
-                        <div class="tfad-listing-feature">
-                            <div class="radio">
-                                <input id="front" type="checkbox" name="check" value="check">
-                                <label for="front" class="text-white">I agree to all your terms and policies</label>
-                            </div>
-                        </div>
+
                     </form>
+
                 </div>
+
             </div>
+
         </div>
+
         <div class="row footer-bottom">
-            <div class="col-12 col-md-6 col-lg-6 col-xl-4 col-xxl-4">
-                <p class="coppy-right"> <a href="#"></a></p>
+
+            <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+
+                <p class="coppy-right">
+                    © {{ date('Y') }} Все права защищены
+                </p>
+
             </div>
-            <div class="col-12 col-md-6 col-lg-6 col-xl-4 col-xxl-4">
+
+            <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+
                 <ul class="social-icon">
-                    <li>
+
+                  {{--  <li>
                         <a href="#"><i class="icon-6"></i></a>
                     </li>
+
                     <li>
                         <a href="#"><i class="icon-4"></i></a>
                     </li>
+
                     <li>
                         <a href="#"><i class="icon-5"></i></a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="icon-7"></i></a>
-                    </li>
+                    </li>--}}
+
                 </ul>
+
             </div>
-            <div class="col-md-12 col-lg-12 col-xl-4 col-xxl-4">
+
+            <div class="col-md-12 col-lg-12 col-xl-4">
+
                 <ul class="bottom-bar-menu">
-                    <li><a href="#">Privacy & Policy</a></li>
-                    <li><a href="#">Licensing</a></li>
-                    <li><a href="#">Instruction</a></li>
+
+                    <li>
+                        <a href="#">Политика конфиденциальности</a>
+                    </li>
+
+                    <li>
+                        <a href="#">Пользовательское соглашение</a>
+                    </li>
+
                 </ul>
+
             </div>
+
         </div>
+
     </div>
-    <img src="assets/images/page/ft-left.png" alt="left" class="shape-left">
-    <img src="assets/images/page/ft-right.png" alt="right" class="shape-right">
-</footer><!-- /#footer -->
+
+    <img src="assets/images/page/ft-left.png"
+         alt="left"
+         class="shape-left">
+
+    <img src="assets/images/page/ft-right.png"
+         alt="right"
+         class="shape-right">
+
+</footer>
+
+

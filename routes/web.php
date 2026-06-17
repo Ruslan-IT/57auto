@@ -3,7 +3,9 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FilterController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\PaymentController;
@@ -25,15 +27,19 @@ Route::get('/dashboard', function () {
 Route::get('/', [IndexController::class, 'index'])->name('home');
 Route::get('/car/{id}', [IndexController::class, 'show'])->name('car.show'); // <-- добавляем
 
-Route::get('/filter', [IndexController::class, 'filter'])->name('filter');
 
 
 
-Route::get('/api/models/{brandId}', function($brandId) {
-    return App\Models\CarModel::where('brand_id', $brandId)->get(['id', 'name']);
-});
+
+// Подгрузка моделей при выборе марк
+Route::get('/api/models/{brandId}', [FilterController::class, 'getModels'])->name('api.models');
+Route::post('/filter', [FilterController::class, 'filter'])->name('filter');
+
 
 Route::post('/form-submit', [FormController::class, 'submit'])->name('form.submit');
+
+
+
 
 
 
@@ -59,6 +65,19 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 });
+
+Route::get('/calculator', function () {
+
+    return redirect('/calculator/korea');
+
+});
+
+Route::post('/calculator/calculate', [CalculatorController::class, 'calculate'])
+    ->name('calculator.calculate');
+
+Route::get('/calculator/{country}', [CalculatorController::class, 'index']) ->name('calculator.index');
+
+
 
 
 

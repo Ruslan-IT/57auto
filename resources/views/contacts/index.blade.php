@@ -19,7 +19,7 @@
                 <div class="themesflat-container full">
                     <div class="page-title t-al-center">
                         <span>Save up to 15%</span>
-                        <h1 class="main-title">Contact</h1>
+                        <h1 class="main-title">Контакты</h1>
                     </div>
                 </div>
             </div>
@@ -42,8 +42,10 @@
                                                 fill="#D01818" />
                                         </svg>
                                     </div>
-                                    <div class="title">Phone Number</div>
-                                    <p class="des">+1255 - 568 - 6523 <br> +1255 - 568 - 6523</p>
+                                    <div class="title">Телефон</div>
+                                    <p class="des">
+                                        {{ $settings->phone }}
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-md-12 col-lg-4">
@@ -73,8 +75,8 @@
                                             </defs>
                                         </svg>
                                     </div>
-                                    <div class="title">Address line</div>
-                                    <p class="des">Bowery St, New York, NY <br> 10013,USA</p>
+                                    <div class="title">Адресс</div>
+                                    <p class="des"> Москва,  Россия</p>
                                 </div>
                             </div>
                             <div class="col-md-12 col-lg-4">
@@ -96,34 +98,43 @@
                                                 fill="#D01818" />
                                         </svg>
                                     </div>
-                                    <div class="title">Opening Hours</div>
-                                    <p class="des">Moday - Friday <br> 09:00 AM - 05:00 PM</p>
+                                    <div class="title">Часы работы</div>
+                                    <p class="des">Понедельник - Пятница 09:00  - 17:00 </p>
                                 </div>
                             </div>
                         </div>
                         <div class="form-contact-us-page">
-                            <form action="/" id="form-contact-us-page">
+
+                            <form action="{{ route('form.submit') }}"  method="POST" >
+
+                                @csrf
+
                                 <div class="input-contact-us-wrap">
+
+                                    <input type="hidden"
+                                           name="type"
+                                           value="page_contact">
+
                                     <fieldset class="input-contact-us">
-                                        <input aria-required="true" aria-invalid="false" placeholder="Enter your name"
+                                        <input aria-required="true" name="name"  aria-invalid="false" placeholder="Ваше имя"
                                                value="" type="text">
                                     </fieldset>
+
+
                                     <fieldset class="input-contact-us">
-                                        <input aria-required="true" aria-invalid="false"
-                                               placeholder="Enter Email Address" value="" type="email">
+                                        <input aria-required="true"  name="phone"  aria-invalid="false"
+                                               placeholder="Ваш телефон" value="" type="tel">
                                     </fieldset>
-                                    <fieldset class="input-contact-us">
-                                        <input aria-required="true" aria-invalid="false"
-                                               placeholder="Enter Phone Number" value="" type="tel">
-                                    </fieldset>
-                                    <fieldset class="input-contact-us">
-                                        <input aria-required="true" aria-invalid="false" placeholder="Subject" value=""
-                                               type="text">
-                                    </fieldset>
+
                                 </div>
-                                <textarea cols="40" rows="10" aria-invalid="false">Write Message.....</textarea>
-                                <button type="submit">Send Message</button>
+
+                                <textarea  name="message"  cols="40" rows="10" aria-invalid="false">Сообщение....</textarea>
+
+
+                                <button type="submit">Отправить</button>
                             </form>
+
+
                         </div>
                     </div>
                 </div>

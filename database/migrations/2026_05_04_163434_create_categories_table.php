@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');        // Китайские, Корейские, ОАЭ
             $table->string('slug')->unique();
+
+            $table->foreignId('user_id')->index()->constrained('users');
+
             $table->timestamps();
         });
     }
