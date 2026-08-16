@@ -28,7 +28,7 @@
     <meta name="twitter:image" content="@yield('seo_image', asset('logo2.png'))">
 
     <!-- Favicon -->
-    <link rel="icon" href="{{ asset('favicon1.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('favicon1 .png') }}" type="image/png">
 
     <link rel="stylesheet" type="text/css" href="/assets/css/style-2.css">
 
@@ -165,7 +165,14 @@
             }
         });
 
-        let currentCategoryId = $('.tab-pane.active').data('category-id') || {{ $activeCategory->id ?? 0 }};
+        let currentCategoryId =
+            $('.tab-pane.active').data('category-id') ||
+            {{ $activeCategory->id ?? 0 }};
+
+        let currentPage = 1;
+        let hasMorePages = true;
+
+
 
         // Инициализация слайдера цен
         let slider = document.getElementById('price-slider');
@@ -178,34 +185,74 @@
             step: 10000
         });
         slider.noUiSlider.on('update', function(values) {
+
             $('#price_min').val(Math.round(values[0]));
             $('#price_max').val(Math.round(values[1]));
-            $('#price-min-display').text(Math.round(values[0]).toLocaleString());
-            $('#price-max-display').text(Math.round(values[1]).toLocaleString());
+
+            $('#price-min-display').text(
+                Math.round(values[0]).toLocaleString()
+            );
+
+            $('#price-max-display').text(
+                Math.round(values[1]).toLocaleString()
+            );
+
+        });
+
+        slider.noUiSlider.on('change', function() {
+
+            applyFilter();
+
         });
 
         // Подгрузка моделей при выборе марки
         $('#brand-select').on('change', function() {
+
             let brandId = $(this).val();
             let modelSelect = $('#model-select');
-            modelSelect.prop('disabled', true).html('<option value="">Загрузка...</option>');
+
+            modelSelect
+                .prop('disabled', true)
+                .html('<option value="">Загрузка...</option>');
 
             if (brandId) {
+
                 $.get('/api/models/' + brandId, function(models) {
+
                     let options = '<option value="">Все модели</option>';
+
                     $.each(models, function(key, model) {
                         options += `<option value="${model.id}">${model.name}</option>`;
                     });
-                    modelSelect.html(options).prop('disabled', false);
+
+                    modelSelect
+                        .html(options)
+                        .prop('disabled', false);
+
+                    // СРАЗУ применяем фильтр по марке
+                    applyFilter();
 
                 }).fail(function() {
-                    modelSelect.html('<option value="">Ошибка загрузки</option>');
-                });
-            }
 
-            else {
-                modelSelect.html('<option value="">Сначала выберите марку</option>').prop('disabled', true);
+                    modelSelect
+                        .html('<option value="">Ошибка загрузки</option>')
+                        .prop('disabled', true);
+
+                });
+
+            } else {
+
+                modelSelect
+                    .html('<option value="">Сначала выберите марку</option>')
+                    .prop('disabled', true);
+
+                // Если выбрали "Все марки"
+                applyFilter();
             }
+        });
+
+        $('#model-select').on('change', function() {
+            applyFilter();
         });
 
         // Смена таба – обновляем фильтр и перезагружаем машины
@@ -226,43 +273,225 @@
 
         function applyFilter() {
 
+            currentPage = 1;
+
+            $('#cars-filter-text').text('Загрузка автомобилей...');
+
             let formData = {
                 category_id: currentCategoryId,
                 brand_id: $('#brand-select').val(),
                 model_id: $('#model-select').val(),
                 price_min: Number($('#price_min').val()) || 0,
                 price_max: Number($('#price_max').val()) || 10000000,
+                page: currentPage,
             };
 
-            let button = document.querySelector('.button-search-listing');
 
-            // loader START
-            button.textContent = 'Загружаю...';
-            button.disabled = true;
 
             $.ajax({
+
                 url: '/filter',
+
                 method: 'POST',
+
                 data: formData,
 
                 success: function(response) {
-                    $('#cars-container').html(response.html);
+
+                    /*
+                     * Новый поиск —
+                     * полностью заменяем список.
+                     */
+                    $('#cars-container')
+                        .html(response.html);
+
                     initCarGalleries();
+
+
+
+                    $('#cars-filter-text').text(
+                        'Найдено автомобилей: ' + response.total
+                    );
+
+
+                    /*
+                     * Запоминаем текущую страницу.
+                     */
+                    currentPage =
+                        response.current_page;
+
+
+                    // Обновляем общее количество
+                    $('#cars-count').text(response.total);
+
+
+                    /*
+                     * Показываем/скрываем
+                     * кнопку "Загрузить ещё".
+                     */
+                    updateLoadMoreButton(
+                        response.has_more
+                    );
+
+
                 },
 
-                error: function() {
-                    alert('Ошибка загрузки автомобилей');
+                error: function(xhr) {
+
+                    console.error(
+                        xhr.responseText
+                    );
+
+                    alert(
+                        'Ошибка загрузки автомобилей'
+                    );
+
                 },
 
-                complete: function() {
-                    // loader END (ВАЖНО — всегда срабатывает)
-                    button.textContent = 'Поиск';
-                    button.disabled = false;
-                }
             });
         }
 
-        // Загрузка ещё (пагинация) – можно реализовать позже, но для простоты пока не делаем
+        function updateLoadMoreButton(hasMore) {
+
+            const button =
+                $('.load-more');
+
+
+            if (hasMore) {
+
+                button
+                    .parent()
+                    .show();
+
+            } else {
+
+                button
+                    .parent()
+                    .hide();
+
+            }
+
+        }
+
+        $('.load-more').on('click', function(e) {
+
+            e.preventDefault();
+
+
+            const button = $(this);
+
+
+            /*
+             * Следующая страница.
+             */
+            const nextPage =
+                currentPage + 1;
+
+
+            button
+                .text('Загружаю...')
+                .addClass('disabled');
+
+
+            let formData = {
+
+                category_id:
+                currentCategoryId,
+
+                brand_id:
+                    $('#brand-select').val(),
+
+                model_id:
+                    $('#model-select').val(),
+
+                price_min:
+                    Number(
+                        $('#price_min').val()
+                    ) || 0,
+
+                price_max:
+                    Number(
+                        $('#price_max').val()
+                    ) || 10000000,
+
+                page:
+                nextPage
+
+            };
+
+
+            $.ajax({
+
+                url: '/filter',
+
+                method: 'POST',
+
+                data: formData,
+
+
+                success: function(response) {
+
+                    /*
+                     * НЕ html(),
+                     *
+                     * а append().
+                     *
+                     * Добавляем новые машины
+                     * к существующим.
+                     */
+                    $('#cars-container')
+                        .append(response.html);
+
+
+                    /*
+                     * Инициализируем галереи
+                     * новых карточек.
+                     */
+                    initCarGalleries();
+
+
+                    /*
+                     * Запоминаем страницу.
+                     */
+                    currentPage =
+                        response.current_page;
+
+
+                    /*
+                     * Если больше машин нет —
+                     * скрываем кнопку.
+                     */
+                    updateLoadMoreButton(
+                        response.has_more
+                    );
+
+                },
+
+
+                error: function(xhr) {
+
+                    console.error(
+                        xhr.responseText
+                    );
+
+                    alert(
+                        'Ошибка загрузки автомобилей'
+                    );
+
+                },
+
+
+                complete: function() {
+
+                    button
+                        .text('Загрузить ещё')
+                        .removeClass('disabled');
+
+                }
+
+            });
+
+        });
     });
 
 

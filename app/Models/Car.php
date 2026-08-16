@@ -32,6 +32,11 @@ class Car extends Model
         });
     }
 
+    public function carAttributes()
+    {
+        return $this->hasMany(CarAttribute::class, 'car_id');
+    }
+
     public function category() { return $this->belongsTo(Category::class); }
     public function brand() { return $this->belongsTo(Brand::class); }
     public function model() { return $this->belongsTo(CarModel::class, 'model_id'); }

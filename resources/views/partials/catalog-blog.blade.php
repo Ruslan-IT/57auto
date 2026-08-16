@@ -34,6 +34,7 @@
 
             <!-- Единая форма фильтра (скрытая категория будет меняться при смене таба) -->
             <form id="filter-form" class="mt-4">
+                @csrf
                 <div class="inner-group grid d-flex gap-3  align-items-end">
                     <div class="form-group" style="min-width: 150px;">
                         {{--<label>Марка</label>--}}
@@ -63,12 +64,15 @@
                             <span>от <span id="price-min-display">0</span> ₽</span>
                             <span>до <span id="price-max-display">10 000 000</span> ₽</span>
                         </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class=" button-search-listing button-search-listing">
-                            <i class="icon-search-1"></i> Поиск
-                        </button>
+                <div class="form-group">
+                    <div class="cars-filter-status" id="cars-filter-status">
+                        <span id="cars-filter-text">
+                            Найдено автомобилей: {{ $cars->total() }}
+                        </span>
                     </div>
+                </div>
                 </div>
             </form>
 
@@ -78,6 +82,8 @@
 <!-- Блок вывода автомобилей (изначально заполняется через Blade) -->
 <div class="widget-best-deals">
     <div class="themesflat-container">
+
+
         <div class="car-list-item" id="cars-container">
             @include('partials.car_cards', ['cars' => $cars])
         </div>

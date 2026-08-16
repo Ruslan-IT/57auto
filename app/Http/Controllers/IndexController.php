@@ -5,71 +5,129 @@ namespace App\Http\Controllers;
 use App\Models\Car;
 use App\Models\Category;
 use App\Models\Brand;
-use App\Models\CarModel;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
     /**
-     * Главная страница с табами и формой фильтра.
+     * Главная страница.
      */
     public function index()
     {
-        // Получаем все категории (Китай, Корея, ОАЭ) для табов
-        $categories = Category::all();
+        // Категории для табов
+        $categories = Category::orderBy('id')->get();
 
-        // По умолчанию показываем первую категорию (например, Китай)
+        // Активная категория
         $activeCategory = $categories->first();
+
+        // Автомобили активной категории
         if ($activeCategory) {
-            $cars = Car::with(['brand', 'model', 'images'])
+
+            $cars = Car::with([
+                'brand',
+                'model',
+                'images'
+            ])
                 ->where('category_id', $activeCategory->id)
-                ->limit(12)
-                ->get();
+                ->orderBy('id', 'asc')
+                ->paginate(12);
+
         } else {
+
             $cars = collect();
+
         }
 
-        // Последние автомобили
-        $latestCars = Car::with(['brand', 'model', 'images'])
-            ->latest() // ORDER BY created_at DESC
+
+        /*
+         * Марки.
+         *
+         * Берём только те марки,
+         * у которых есть автомобили.
+         */
+        $brands = Brand::query()
+            ->whereHas('cars')
+            ->orderBy('name')
+            ->get();
+
+
+        /*
+         * Последние автомобили.
+         */
+        $latestCars = Car::with([
+            'brand',
+            'model',
+            'images'
+        ])
+            ->latest()
             ->limit(6)
             ->get();
 
-        $usedCars = Car::with(['brand', 'model', 'images'])
+
+        /*
+         * Автомобили с пробегом.
+         */
+        $usedCars = Car::with([
+            'brand',
+            'model',
+            'images'
+        ])
             ->where('mileage', '>', 0)
             ->latest()
             ->limit(6)
             ->get();
 
-        $chinaCars = Car::with(['brand', 'model', 'images'])
-            ->whereHas('category', function ($q) {
-                $q->where('name', 'Китайские');
+
+        /*
+         * Китайские автомобили.
+         */
+        $chinaCars = Car::with([
+            'brand',
+            'model',
+            'images'
+        ])
+            ->whereHas('category', function ($query) {
+
+                $query->where(
+                    'name',
+                    'Китайские'
+                );
+
             })
             ->latest()
             ->limit(6)
             ->get();
 
-        // Справочники для фильтров (марки и модели будут подгружаться через JS)
-        $brands = Brand::orderBy('name')->get();
 
-
-
-        return view('welcome', compact(
-            'categories',
-            'activeCategory',
-            'cars',
-            'brands',
-            'latestCars',
-            'usedCars',
-            'chinaCars',
-        ));
+        return view(
+            'welcome',
+            compact(
+                'categories',
+                'activeCategory',
+                'cars',
+                'brands',
+                'latestCars',
+                'usedCars',
+                'chinaCars'
+            )
+        );
     }
 
 
-
-    public function show($id)
+    public function show($slug)
     {
-        $car = Car::with(['brand', 'model', 'images'])->findOrFail($id);
-        return view('car_detail', compact('car'));
+        $car = Car::with([
+            'brand',
+            'model',
+            'images',
+            'carAttributes',
+        ])
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        return view(
+            'car_detail',
+            compact('car')
+        );
     }
 }

@@ -10267,3 +10267,113 @@ a.mapboxgl-ctrl-logo {
 .country-info small{
     line-height: 1.8;
 }
+
+
+
+.car-characteristics {
+    margin-top: 40px;
+}
+
+.car-characteristics-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.characteristics-group {
+    margin-bottom: 30px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.characteristics-group-title {
+    margin: 0;
+    padding: 18px 22px;
+    font-size: 18px;
+    font-weight: 600;
+    background: #f7f8fa;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.characteristics-list {
+    width: 100%;
+}
+
+.car-characteristic {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 52px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.car-characteristic:last-child {
+    border-bottom: none;
+}
+
+.car-characteristic-name {
+    padding: 15px 22px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.car-characteristic-value {
+    padding: 15px 22px;
+    color: #111827;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+
+.gallary-property-details .property-gallary2 .swiper-slide {
+    /*height: 500px;*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallary-property-details .property-gallary2 .swiper-slide img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+@media (max-width: 767px) {
+
+    .car-characteristics {
+        margin-top: 30px;
+    }
+
+    .car-characteristics-title {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+    .characteristics-group {
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .characteristics-group-title {
+        padding: 15px;
+        font-size: 16px;
+    }
+
+    .car-characteristic {
+        grid-template-columns: 1fr;
+    }
+
+    .car-characteristic-name {
+        padding: 12px 15px 4px;
+        font-size: 13px;
+    }
+
+    .car-characteristic-value {
+        padding: 4px 15px 12px;
+        font-size: 14px;
+    }
+}

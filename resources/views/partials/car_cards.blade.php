@@ -1,7 +1,7 @@
 @if($cars->count())
     @foreach($cars as $car)
         <div class="tf-car-service">
-            <a href="{{ route('car.show', $car->id) }}" class="image">
+            <a href="{{ route('car.show', $car->slug) }}" class="image">
                 <div class="stm-badge-top">
                     @if($car->is_min_util)
                         <div class="feature"><span>Льготный утильсбор</span></div>
@@ -11,7 +11,18 @@
                 <div class="listing-images">
                     <div class="hover-listing-image">
                         <div class="wrap-hover-listing">
-                            @php $images = $car->images->take(3); @endphp
+                            @php
+                                $images = $car->images->take(3);
+
+                                if ($images->count() >= 2) {
+                                    $images = collect([
+                                        $images[1],
+                                        $images[0],
+                                        ...$images->slice(2)->values(),
+                                    ]);
+                                }
+                            @endphp
+
                             @foreach($images as $index => $img)
                                 <div class="listing-item {{ $index == 0 ? 'active' : '' }}" title="{{ $car->title }}">
                                     <div class="images">
@@ -42,7 +53,7 @@
             </a>
             <div class="content">
                 <span class="sub-title">{{ $car->brand->name }} {{ $car->model->name }}</span>
-                <h6 class="title"><a href="{{ route('car.show', $car->id) }}">{{ $car->title ?? $car->brand->name . ' ' . $car->model->name . ' ' . $car->year }}</a></h6>
+                <h6 class="title"><a href="{{ route('car.show', $car->slug) }}">{{ $car->title ?? $car->brand->name . ' ' . $car->model->name . ' ' . $car->year }}</a></h6>
                 <span class="price">{{ number_format($car->price_russia, 0, ',', ' ') }} ₽</span>
                 <div class="description">
                     <ul>
@@ -71,13 +82,13 @@
                 </div>
                 <div class="bottom-btn-wrap">
                     <div class="btn-read-more">
-                        <a class="more-link" href="{{ route('car.show', $car->id) }}">
+                        <a class="more-link" href="{{ route('car.show', $car->slug) }}">
                             <span>Подробнее</span>
                             <i class="icon-arrow-right2"></i>
                         </a>
                     </div>
                     <div class="btn-group">
-                        <a href="#" class="icon-service js-add-to-fav" data-id="{{ $car->id }}">
+                        <a href="#" class="icon-service js-add-to-fav" data-id="{{ $car->slug }}">
                             <i class="icon-heart-1-1"></i>
                         </a>
                     </div>

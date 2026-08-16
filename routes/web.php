@@ -17,6 +17,11 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\Api\CarParserController;
+
+
+
+
 
 
 Route::get('/dashboard', function () {
@@ -25,7 +30,7 @@ Route::get('/dashboard', function () {
 
 
 Route::get('/', [IndexController::class, 'index'])->name('home');
-Route::get('/car/{id}', [IndexController::class, 'show'])->name('car.show'); // <-- добавляем
+Route::get('/car/{slug}', [IndexController::class, 'show'])->name('car.show'); // <-- добавляем
 
 
 
@@ -37,6 +42,10 @@ Route::post('/filter', [FilterController::class, 'filter'])->name('filter');
 
 
 Route::post('/form-submit', [FormController::class, 'submit'])->name('form.submit');
+
+Route::post('/cars/contact', [FormController::class, 'submit'])->name('cars.contact');
+
+
 
 
 

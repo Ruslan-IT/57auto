@@ -238,6 +238,52 @@
                             </div>
                         </div>
 
+                        <div class="car-characteristics">
+
+                            <h3 class="car-characteristics-title">
+                                Характеристики автомобиля
+                            </h3>
+
+                            @php
+                                $groupedAttributes = $car->carAttributes
+                                    ->groupBy(function ($attribute) {
+                                        return $attribute->display_name ?: 'Основные характеристики';
+                                    });
+                            @endphp
+
+                            @foreach($groupedAttributes as $groupName => $attributes)
+
+                                <div class="characteristics-group">
+
+                                    <h4 class="characteristics-group-title">
+                                        {{ $groupName }}
+                                    </h4>
+
+                                    <div class="characteristics-list">
+
+                                        @foreach($attributes as $attribute)
+
+                                            <div class="car-characteristic">
+
+                                                <div class="car-characteristic-name">
+                                                    {{ $attribute->key }}
+                                                </div>
+
+                                                <div class="car-characteristic-value">
+                                                    {{ $attribute->value }}
+                                                </div>
+
+                                            </div>
+
+                                        @endforeach
+
+                                    </div>
+
+                                </div>
+
+                            @endforeach
+
+                        </div>
                         <!-- Карта – можно оставить как есть или убрать, если не нужна -->
                         <div class="wrap-car-location wrap-style">
                             <h4 class="title">Расположение</h4>
@@ -259,7 +305,7 @@
 
                 <!-- Боковая панель (контакты, форма) -->
                 <div class="col-lg-4 col-md-12">
-                    <div class="driver-price-wrap mb-40">
+                   {{-- <div class="driver-price-wrap mb-40">
                         <a class="test-driver mb-16" data-bs-toggle="modal" href="#test-driver" role="button">
                             Записаться на тест-драйв
                             <i class="icon-steering-wheel-1"></i>
@@ -268,7 +314,7 @@
                             Предложить цену
                             <i class="icon-Group-12"></i>
                         </a>
-                    </div>
+                    </div>--}}
                     <div class="author-contact-listing-wrap">
                         <div class="author-contact-wrap">
 
@@ -281,24 +327,61 @@
                             </span>
                             </div>
                         </div>
-                        <form action="/" method="post" class="form-contact-admin">
+                        <form action="{{ route('cars.contact') }}" method="POST" class="form-contact-admin">
+
+                            @csrf
+
+                            <input type="hidden" name="type" value="car_request">
+
+                            <input type="hidden" name="car_url" value="{{ url()->current() }}">
+
+                            <input type="hidden" name="car_id" value="{{ $car->id }}">
+
                             <div class="group-form">
-                                <input class="admin-form" placeholder="Ваше имя" type="text">
+                                <input
+                                    class="admin-form"
+                                    name="name"
+                                    placeholder="Ваше имя"
+                                    type="text"
+                                    required
+                                >
                                 <i class="icon-user-1-1"></i>
                             </div>
+
                             <div class="group-form">
-                                <input class="admin-form" placeholder="Email" type="email">
+                                <input
+                                    class="admin-form"
+                                    name="email"
+                                    placeholder="Email"
+                                    type="email"
+                                >
                                 <i class="icon-Group2"></i>
                             </div>
+
                             <div class="group-form">
-                                <input class="admin-form" placeholder="Телефон" type="text">
+                                <input
+                                    class="admin-form"
+                                    name="phone"
+                                    placeholder="Телефон"
+                                    type="text"
+                                    required
+                                >
                                 <i class="icon-Group-14"></i>
                             </div>
+
                             <div class="group-form">
-                                <textarea class="admin-form" placeholder="Сообщение"></textarea>
+                            <textarea
+                                class="admin-form"
+                                name="message"
+                                placeholder="Сообщение"
+                            ></textarea>
                                 <i class="icon-edit-1"></i>
                             </div>
-                            <button type="submit">Отправить</button>
+
+                            <button type="submit">
+                                Отправить
+                            </button>
+
                         </form>
                     </div>
                 </div>

@@ -1,6 +1,5 @@
 <?php
-
+use App\Http\Controllers\Api\CarParserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\WebhookController;
 
-Route::post( '/yookassa/webhook' , WebhookController::class);
+
