@@ -15,7 +15,7 @@ import path from 'path';
  * 100 = тест
  * 1500 = полный запуск
  */
-const MAX_CARS = 1500;
+const MAX_CARS = 10;
 
 
 /*
@@ -32,14 +32,14 @@ const CARS_PER_PAGE = 20;
  * которые используем на следующих страницах.
  */
 const START_URL =
-    'https://revocars.ru/china-used/?body=vnedorozhnik&sort=price_asc';
+    'https://revocars.ru/korea/?sort=price_asc';
 
 
 /*
  * Базовый URL каталога.
  */
 const CATALOG_URL =
-    'https://revocars.ru/china-used/';
+    'https://revocars.ru/korea/';
 
 
 /*
