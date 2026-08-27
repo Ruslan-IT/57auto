@@ -52,8 +52,13 @@
                 </div>
             </a>
             <div class="content">
-                <span class="sub-title">{{ $car->brand->name }} {{ $car->model->name }}</span>
-                <h6 class="title"><a href="{{ route('car.show', $car->slug) }}">{{ $car->title ?? $car->brand->name . ' ' . $car->model->name . ' ' . $car->year }}</a></h6>
+                <span class="sub-title">{{ $car->brand?->name }} {{ $car->model?->name }}</span>
+                <h6 class="title">
+                    <a href="{{ route('car.show', $car->slug) }}">
+                        {{ $car->title ?? $car->brand?->name . ' ' . $car->model?->name . ' ' . $car->year }}
+                    </a>
+                </h6>
+                
                 <span class="price">{{ number_format($car->price_russia, 0, ',', ' ') }} ₽</span>
                 <div class="description">
                     <ul>
