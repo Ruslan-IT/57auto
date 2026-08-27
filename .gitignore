@@ -26,4 +26,4 @@ public_html
 parser-china.js
 parser-2.js
 app/Console/Commands/ImportCars.php
-/downloads/
+/downloads*/
