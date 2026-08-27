@@ -58,7 +58,7 @@
                         {{ $car->title ?? $car->brand?->name . ' ' . $car->model?->name . ' ' . $car->year }}
                     </a>
                 </h6>
-                
+
                 <span class="price">{{ number_format($car->price_russia, 0, ',', ' ') }} ₽</span>
                 <div class="description">
                     <ul>
