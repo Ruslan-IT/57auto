@@ -177,3 +177,114 @@
     </div>
 </div>
 <!-- Modal-price -->
+
+<div class="modal fade" id="request-modal" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            <h4 class="title-form">Оставить заявку</h4>
+
+            <form action="{{ route('cars.contact') }}" method="POST" class="form-contact-admin js-request-modal-form">
+                @csrf
+
+                <input type="hidden" name="type" value="site_request">
+                <input type="hidden" name="car_url" value="">
+                <input type="hidden" name="car_id" value="">
+
+                <div class="group-form">
+                    <input class="admin-form" name="name" placeholder="Ваше имя" type="text" required>
+                    <i class="icon-user-1-1"></i>
+                </div>
+
+                <div class="group-form">
+                    <input class="admin-form" name="phone" placeholder="Телефон" type="tel" required>
+                    <i class="icon-Group-14"></i>
+                </div>
+
+                <div class="group-form">
+                    <textarea class="admin-form" name="message" placeholder="Ваш вопрос" required></textarea>
+                    <i class="icon-edit-1"></i>
+                </div>
+
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        function currentCarId() {
+            var input = document.querySelector('form.form-contact-admin:not(.js-request-modal-form) input[name="car_id"]');
+            return input && input.value ? input.value : '';
+        }
+
+        function prepareRequestForm(form) {
+            if (!form) {
+                return;
+            }
+
+            form.querySelector('[name="car_url"]').value = window.location.href;
+
+            var carId = currentCarId();
+            var carIdInput = form.querySelector('[name="car_id"]');
+            var typeInput = form.querySelector('[name="type"]');
+
+            if (carId) {
+                carIdInput.disabled = false;
+                carIdInput.value = carId;
+                typeInput.value = 'car_request';
+            } else {
+                carIdInput.value = '';
+                carIdInput.disabled = true;
+                typeInput.value = 'site_request';
+            }
+        }
+
+        function openRequestModal(event) {
+            if (event) {
+                event.preventDefault();
+            }
+
+            var modalEl = document.getElementById('request-modal');
+            if (!modalEl || typeof bootstrap === 'undefined') {
+                return;
+            }
+
+            prepareRequestForm(modalEl.querySelector('.js-request-modal-form'));
+            bootstrap.Modal.getOrCreateInstance(modalEl).show();
+        }
+
+        document.addEventListener('show.bs.modal', function (event) {
+            if (event.target && event.target.id === 'request-modal') {
+                prepareRequestForm(event.target.querySelector('.js-request-modal-form'));
+            }
+        });
+
+        document.addEventListener('click', function (event) {
+            var trigger = event.target.closest('.btn-sell, a[href="#home_page_contact"], a[href="#request-modal"], [data-open-request-modal]');
+            if (!trigger || trigger.getAttribute('data-bs-toggle') === 'modal') {
+                return;
+            }
+
+            openRequestModal(event);
+        });
+
+        document.addEventListener('submit', function (event) {
+            var form = event.target.closest('.js-request-modal-form');
+            if (!form) {
+                return;
+            }
+
+            prepareRequestForm(form);
+
+            var name = (form.querySelector('[name="name"]') || {}).value || '';
+            var phone = (form.querySelector('[name="phone"]') || {}).value || '';
+            var message = (form.querySelector('[name="message"]') || {}).value || '';
+
+            if (!name.trim() || !phone.trim() || !message.trim()) {
+                event.preventDefault();
+            }
+        });
+    })();
+</script>

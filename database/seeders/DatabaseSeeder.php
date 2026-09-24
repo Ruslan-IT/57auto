@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
            /* UserSeeder::class,
             TopicSeeder::class,*/
             TaskSeeder_motivation::class,
+            BlogPostSeeder::class,
+            LegalPageSeeder::class,
         ]);
     }
 }

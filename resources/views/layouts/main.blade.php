@@ -177,7 +177,7 @@
         // Инициализация слайдера цен
         let slider = document.getElementById('price-slider');
         let priceMin = 0;
-        let priceMax = 10000000;
+        let priceMax = 350000000;
         noUiSlider.create(slider, {
             start: [priceMin, priceMax],
             connect: true,
@@ -274,6 +274,8 @@
         function applyFilter() {
 
             currentPage = 1;
+
+            console.log('CATEGORY ID:', currentCategoryId);
 
             $('#cars-filter-text').text('Загрузка автомобилей...');
 

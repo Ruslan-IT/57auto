@@ -1,324 +1,98 @@
 @extends('layouts.main')
 
-
-@section('seo_title', '')
-@section('seo_description', '')
-@section('seo_keywords', '')
-
+@section('seo_title', 'Блог — Intercar')
+@section('seo_description', 'Статьи об автомобилях из Китая и Кореи, доставке и выборе машины.')
+@section('seo_keywords', 'блог, автомобили из китая, автомобили из кореи')
 
 @section('content')
-
-
-    <!-- /#page -->
     <div id="wrapper">
         <div id="page" class="clearfix">
-
-
-
-            <!-- Main Page Title -->
             <div class="tf-page-title mt-10">
                 <div class="themesflat-container full">
                     <div class="page-title t-al-center">
-                        <span>Save up to 15%</span>
-                        <h1 class="main-title">Blog page</h1>
+                        <span>Intercar</span>
+                        <h1 class="main-title">Блог</h1>
                     </div>
                 </div>
             </div>
-            <!-- End Page Title -->
 
-            <!-- Content Blog -->
             <div class="flat-blog-list main-content">
                 <div class="themesflat-container w1320">
                     <div class="row">
                         <div class="col-lg-8">
                             <div class="flat-blog">
-                                <article class="entry format-standard">
-                                    <div class="feature-post">
-                                        <div class="category">
-                                            <ul class="flex">
-                                                <li>
-                                                    <a href="#">Business</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <img src="assets/images/blog/bl1.jpg" alt="image">
-                                    </div><!-- /.feature-post -->
+                                @forelse($posts as $post)
+                                    <article class="entry format-standard">
+                                        @if($post->imageUrl())
+                                            <div class="feature-post">
+                                                <a href="{{ route('blogs.show', $post->slug) }}">
+                                                    <img src="{{ $post->imageUrl() }}" alt="{{ $post->title }}">
+                                                </a>
+                                            </div>
+                                        @endif
 
-                                    <div class="main-post">
-                                        <div class="entry-meta">
-                                            <span class="author line"><i class="icon-user"></i><a href="#">Mehedii
-                                                    .Ha</a></span>
-                                            <span class="comment line"><i class="icon-2"></i><a href="#">Coments
-                                                    (03)</a></span>
-                                            <span class="time line"><i class="icon-uniE971"></i><a href="#">3 min
-                                                    Read</a></span>
+                                        <div class="main-post">
+                                            @if($post->published_at)
+                                                <div class="entry-meta">
+                                                    <span class="time line">
+                                                        <i class="icon-uniE971"></i>
+                                                        {{ $post->published_at->format('d.m.Y') }}
+                                                    </span>
+                                                </div>
+                                            @endif
+                                            <h2 class="entry-title">
+                                                <a href="{{ route('blogs.show', $post->slug) }}">{{ $post->title }}</a>
+                                            </h2>
+                                            @if(filled($post->excerpt))
+                                                <p class="entry-des">{{ $post->excerpt }}</p>
+                                            @endif
+                                            <div class="btn-read-more">
+                                                <a class="more-link" href="{{ route('blogs.show', $post->slug) }}">
+                                                    <span>Читать далее</span>
+                                                    <i class="icon-Path-90148"></i>
+                                                </a>
+                                            </div>
                                         </div>
-                                        <h2 class="entry-title">
-                                            <a href="blog-single.html">The whimsically named Egg Canvas brainch </a>
-                                        </h2>
-                                        <p class="entry-des">There are many variations of passages of Lorem Ipsum
-                                            available, but majority have suffered
-                                            teration in some form, by injected humour, or randomised words which don't
-                                            look even slight
-                                            believable. If you are going to use a passage of Lorem Ipsum.</p>
-                                        <div class="btn-read-more">
-                                            <a class="more-link" href="blog-single.html">
-                                                <span>Read MOre</span>
-                                                <i class="icon-Path-90148"></i>
-                                            </a>
-                                        </div>
-
-                                        <!-- /.entry-meta -->
-                                    </div><!-- /.main-post -->
-                                </article>
-                                <article class="entry format-standard">
-                                    <div class="feature-post">
-                                        <div class="category">
-                                            <ul class="flex">
-                                                <li>
-                                                    <a href="#">Business</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <img src="assets/images/blog/bl2.jpg" alt="image">
-                                    </div><!-- /.feature-post -->
-
-                                    <div class="main-post">
-                                        <div class="entry-meta">
-                                            <span class="author line"><i class="icon-user"></i><a href="#">Mehedii
-                                                    .Ha</a></span>
-                                            <span class="comment line"><i class="icon-2"></i><a href="#">Coments
-                                                    (03)</a></span>
-                                            <span class="time line"><i class="icon-uniE971"></i><a href="#">3 min
-                                                    Read</a></span>
-                                        </div>
-                                        <h2 class="entry-title">
-                                            <a href="blog-single.html">The whimsically named Egg Canvas brainch </a>
-                                        </h2>
-                                        <p class="entry-des">There are many variations of passages of Lorem Ipsum
-                                            available, but majority have suffered
-                                            teration in some form, by injected humour, or randomised words which don't
-                                            look even slight
-                                            believable. If you are going to use a passage of Lorem Ipsum.</p>
-                                        <div class="btn-read-more">
-                                            <a class="more-link" href="blog-single.html">
-                                                <span>Read MOre</span>
-                                                <i class="icon-Path-90148"></i>
-                                            </a>
-                                        </div>
-
-                                        <!-- /.entry-meta -->
-                                    </div><!-- /.main-post -->
-                                </article>
-                                <article class="entry format-standard">
-                                    <div class="feature-post">
-                                        <div class="category">
-                                            <ul class="flex">
-                                                <li>
-                                                    <a href="#">Business</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <img src="assets/images/blog/bl3.jpg" alt="image">
-                                    </div><!-- /.feature-post -->
-
-                                    <div class="main-post">
-                                        <div class="entry-meta">
-                                            <span class="author line"><i class="icon-user"></i><a href="#">Mehedii
-                                                    .Ha</a></span>
-                                            <span class="comment line"><i class="icon-2"></i><a href="#">Coments
-                                                    (03)</a></span>
-                                            <span class="time line"><i class="icon-uniE971"></i><a href="#">3 min
-                                                    Read</a></span>
-                                        </div>
-                                        <h2 class="entry-title">
-                                            <a href="blog-single.html">The whimsically named Egg Canvas brainch </a>
-                                        </h2>
-                                        <p class="entry-des">There are many variations of passages of Lorem Ipsum
-                                            available, but majority have suffered
-                                            teration in some form, by injected humour, or randomised words which don't
-                                            look even slight
-                                            believable. If you are going to use a passage of Lorem Ipsum.</p>
-                                        <div class="btn-read-more">
-                                            <a class="more-link" href="blog-single.html">
-                                                <span>Read MOre</span>
-                                                <i class="icon-Path-90148"></i>
-                                            </a>
-                                        </div>
-
-                                        <!-- /.entry-meta -->
-                                    </div><!-- /.main-post -->
-                                </article>
+                                    </article>
+                                @empty
+                                    <p>Пока нет опубликованных статей.</p>
+                                @endforelse
                             </div>
-                            <div class="tf-pagination mt-60">
-                                <a class="prev page-numbers" href="#">
-                                    <i class="icon-3"></i>
-                                </a>
-                                <a class="page-numbers" href="#">1</a>
-                                <a class="page-numbers active" href="#">2</a>
-                                <a class="page-numbers" href="#">3</a>
-                                <a class="page-numbers" href="#">...</a>
-                                <a class="next page-numbers" href="#">
-                                    <i class="icon--1"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4" >
-                            <aside class="side-blog">
-                                <div class="inner-side-bar pl-30">
-                                    <div class="widget widget-user t-al-center">
-                                        <div class="content-user">
-                                            <img src="assets/images/avatar/avt-blog.jpg" alt="">
-                                            <h4>Rosalina D. Willaim</h4>
-                                            <span>Blogger/Photographer</span>
-                                            <p>he whimsically named Egg Canvas is the design director and photographer
-                                                in New York. Why the nam</p>
-                                            <div class="social-blog-dt">
-                                                <ul>
-                                                    <li>
-                                                        <a href=""><i class="icon-6"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href=""><i class="icon-4"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href=""><i class="icon-5"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href=""><i class="icon-7"></i></a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="widget widget-search ">
-                                        <h3 class="widget-title">
-                                            search here
-                                        </h3>
-                                        <form role="search" method="get" class="search-form" action="/">
-                                            <label>
-                                                <input type="search" value="" name="s" class="s"
-                                                       placeholder="Search here...">
-                                            </label>
-                                            <button type="submit" class="search-submit"><i
-                                                    class="icon-search-1"></i></button>
-                                        </form>
-                                    </div>
-                                    <div class="widget widget-recent">
-                                        <h3 class="widget-title ">
-                                            search here
-                                        </h3>
-                                        <div class="recent-post-list">
-                                            <div class="list-recent">
-                                                <div class="recent-image">
-                                                    <a href="#">
-                                                        <img src="assets/images/blog/1.jpg" alt="Image">
-                                                    </a>
-                                                </div>
-                                                <div class="recent-info">
-                                                    <div class="meta">
-                                                        <i class="icon-1"></i>
-                                                        <span>Jan 23,2022</span>
-                                                    </div>
-                                                    <h4 class="title">
-                                                        <a href="#">Budget Issues Force The Our To Become</a>
-                                                    </h4>
-                                                </div>
-                                            </div>
-                                            <div class="list-recent">
-                                                <div class="recent-image">
-                                                    <a href="#">
-                                                        <img src="assets/images/blog/2.jpg" alt="Image">
-                                                    </a>
-                                                </div>
-                                                <div class="recent-info">
-                                                    <div class="meta">
-                                                        <i class="icon-1"></i>
-                                                        <span>Jan 23,2022</span>
-                                                    </div>
-                                                    <h4 class="title">
-                                                        <a href="#">The Best Products That Shape Fashion</a>
-                                                    </h4>
-                                                </div>
-                                            </div>
-                                            <div class="list-recent">
-                                                <div class="recent-image">
-                                                    <a href="#">
-                                                        <img src="assets/images/blog/3.jpg" alt="Image">
-                                                    </a>
-                                                </div>
-                                                <div class="recent-info">
-                                                    <div class="meta">
-                                                        <i class="icon-1"></i>
-                                                        <span>Jan 23,2022</span>
-                                                    </div>
-                                                    <h4 class="title">
-                                                        <a href="#">The Best Products That Shape Fashion</a>
-                                                    </h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="widget widget-categories">
-                                        <h3 class="widget-title ">
-                                            Catagories
-                                        </h3>
-                                        <ul>
-                                            <li>
-                                                <a href="#" class="category">
-                                                    <span>Graphic Design</span>
-                                                    <div class="number-category">03</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="category active">
-                                                    <span>Web Development</span>
-                                                    <div class="number-category">03</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="category">
-                                                    <span>Digital Marketing</span>
-                                                    <div class="number-category">03</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="category">
-                                                    <span> UI/UX Development</span>
-                                                    <div class="number-category">03</div>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="widget widget-tags">
-                                        <h3 class="widget-title ">
-                                            Catagories
-                                        </h3>
-                                        <div class="tags_cloud_inner">
-                                            <a href="#">Design</a>
-                                            <a href="#">marketing</a>
-                                            <a href="#">search</a>
-                                            <a href="#">branding</a>
-                                            <a href="#">startup</a>
-                                            <a href="#">tech</a>
-                                            <a href="#" class="active">landing </a>
-                                            <a href="#">coding</a>
-                                        </div>
-                                    </div>
+
+                            @if($posts->hasPages())
+                                <div class="tf-pagination mt-60">
+                                    @if($posts->onFirstPage())
+                                        <span class="prev page-numbers"><i class="icon-3"></i></span>
+                                    @else
+                                        <a class="prev page-numbers" href="{{ $posts->previousPageUrl() }}">
+                                            <i class="icon-3"></i>
+                                        </a>
+                                    @endif
+
+                                    @foreach($posts->getUrlRange(1, $posts->lastPage()) as $page => $url)
+                                        @if($page == $posts->currentPage())
+                                            <span class="page-numbers active">{{ $page }}</span>
+                                        @else
+                                            <a class="page-numbers" href="{{ $url }}">{{ $page }}</a>
+                                        @endif
+                                    @endforeach
+
+                                    @if($posts->hasMorePages())
+                                        <a class="next page-numbers" href="{{ $posts->nextPageUrl() }}">
+                                            <i class="icon--1"></i>
+                                        </a>
+                                    @else
+                                        <span class="next page-numbers"><i class="icon--1"></i></span>
+                                    @endif
                                 </div>
-                            </aside>
+                            @endif
+                        </div>
+                        <div class="col-lg-4">
+                            @include('blogs.partials.recent', ['recentPosts' => $recentPosts])
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Content Blog -->
-
-
-
         </div>
-
     </div>
-    <!-- /#page -->
-
 @endsection
-

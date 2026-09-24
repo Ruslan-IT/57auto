@@ -1,14 +1,14 @@
 import { chromium } from 'playwright';
 import fs from 'fs';
 import path from 'path';
-
+//downloads
 /*
 |--------------------------------------------------------------------------
 | НАСТРОЙКИ
 |--------------------------------------------------------------------------
 */
 
-const MAX_CARS = 2;
+const MAX_CARS = 300;
 
 const CARS_PER_PAGE = 20;
 
@@ -211,6 +211,19 @@ function cleanText(value) {
     return String(value)
         .replace(/\s+/g, ' ')
         .trim();
+}
+
+function cleanTitle(value) {
+    const title = cleanText(value);
+
+    if (!title) {
+        return '';
+    }
+
+    return title
+        .replace(/\s*[,.]?\s*лот\s*№\s*[^\s,]+/giu, '')
+        .replace(/\s{2,}/g, ' ')
+        .replace(/[ \t,]+$/g, '');
 }
 
 
@@ -1272,7 +1285,7 @@ async function processCar(
                     .innerText();
 
             title =
-                cleanText(
+                cleanTitle(
                     title
                 );
         }
@@ -1464,7 +1477,7 @@ async function processCar(
             mainSpecs.lot ||
             null,
 
-        title,
+        title: cleanTitle(title),
 
         url:
         car.url,

@@ -22,25 +22,17 @@
                             <nav class="main-menu show navbar-expand-md">
                                 <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                                     <ul class="navigation clearfix">
-
-
-                                        <li><a href="/">Главная</a>
-                                        <li class="dropdown2"><a href="#">Блог </a>
-                                            <ul>
-                                                <li><a href="/blog">Блог</a></li>
-                                                <li><a href="/blog-singlel">Blog Detail</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="/about">О компании</a>
-
-
-                                        <li><a href="/contacts">Контакты</a></li>
+                                        <li><a href="{{ route('home') }}">Главная</a></li>
+                                        <li><a href="{{ route('blogs.index') }}">Блог</a></li>
+                                        <li><a href="{{ route('about.index') }}">О компании</a></li>
+                                        <li><a href="{{ route('contacts.index') }}">Контакты</a></li>
                                     </ul>
                                 </div>
                             </nav>
                             <!-- Main Menu End-->
                         </div>
                         <div class="header-account flex align-center">
+                            {{--
                             <div class="register ml--18">
                                 <div class="flex align-center">
                                     @auth
@@ -56,6 +48,7 @@
                                     @endauth
                                 </div>
                             </div>
+                            --}}
 
 
                             <div class="help-bar-mobie theme-toggle">
@@ -70,12 +63,7 @@
                             </div>
 
 
-                            <div class="flat-bt-top sc-btn-top ml--20 ">
-                                <a class="btn-icon-list" href="/calculator">
-                                    <span>Калькулятор</span>
-                                    <i class="icon-add-button-1"></i>
-                                </a>
-                            </div>
+                            {{-- Калькулятор только в бургер-меню --}}
                         </div>
 
                         <div class="mobile-nav-toggler mobile-button">
@@ -98,20 +86,11 @@
             <div class="bottom-canvas">
                 <div class="menu-outer">
                     <ul class="navigation clearfix">
-
-                        <li class="dropdown2"><a href="/">Главная</a></li>
-
-                        <li class="dropdown2">
-                            <a href="#">Блог</a>
-                            <ul>
-                                <li><a href="/blog">Блог</a></li>
-                                <li><a href="/blog-singlel">Blog Detail</a></li>
-                            </ul>
-                            <div class="dropdown2-btn"></div>
-                        </li>
-
-                        <li class="dropdown2"><a href="/aboutl">О компании</a></li>
-                        <li class="dropdown2"><a href="/contacts">Контакты</a></li>
+                        <li><a href="{{ route('home') }}">Главная</a></li>
+                        <li><a href="{{ route('blogs.index') }}">Блог</a></li>
+                        <li><a href="{{ route('about.index') }}">О компании</a></li>
+                        <li><a href="{{ route('contacts.index') }}">Контакты</a></li>
+                        <li><a href="{{ url('/calculator') }}">Калькулятор</a></li>
                     </ul>
                 </div>
 

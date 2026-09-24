@@ -24,35 +24,46 @@
                                         <span class="sale">Льготный утильсбор</span>
                                     </div>
                                 @endif
-                                <div class="info flex">
-                                    <span>Марка:</span>
-                                    <span class="fw-4">{{ $car->brand->name }}</span>
-                                </div>
-                                <div class="info flex">
-                                    <span>Модель:</span>
-                                    <span class="fw-4">{{ $car->model->name }}</span>
-                                </div>
-                                <div class="info flex">
-                                    <span>Кузов:</span>
-                                    <span class="fw-4">
-                                    @switch($car->body_type)
-                                            @case('vnedorozhnik') Внедорожник @break
-                                            @case('sedan') Седан @break
-                                            @case('hetchbek') Хэтчбек @break
-                                            @case('mikroavtobus') Микроавтобус @break
-                                            @case('pikap') Пикап @break
-                                            @default {{ $car->body_type }}
-                                        @endswitch
-                                </span>
-                                </div>
+                                @if($car->brand?->name)
+                                    <div class="info flex">
+                                        <span>Марка:</span>
+                                        <span class="fw-4">{{ $car->brand->name }}</span>
+                                    </div>
+                                @endif
+                                @if($car->model?->name)
+                                    <div class="info flex">
+                                        <span>Модель:</span>
+                                        <span class="fw-4">{{ $car->model->name }}</span>
+                                    </div>
+                                @endif
+                                @if(filled($car->body_type))
+                                    <div class="info flex">
+                                        <span>Кузов:</span>
+                                        <span class="fw-4">
+                                            @switch($car->body_type)
+                                                @case('vnedorozhnik') Внедорожник @break
+                                                @case('sedan') Седан @break
+                                                @case('hetchbek') Хэтчбек @break
+                                                @case('mikroavtobus') Микроавтобус @break
+                                                @case('pikap') Пикап @break
+                                                @default {{ $car->body_type }}
+                                            @endswitch
+                                        </span>
+                                    </div>
+                                @endif
                             </div>
-                            <div class="title-heading">{{ $car->title ?? $car->brand->name . ' ' . $car->model->name . ' ' . $car->year }}</div>
-                            <div class="text-address">
-                                <i class="icon-map-1-1"></i>
-                                <p>Лот № {{ $car->lot }}</p>
-                            </div>
+                            <div class="title-heading">{{ $car->title ?? trim(($car->brand?->name ?? '') . ' ' . ($car->model?->name ?? '') . ' ' . ($car->year ?? '')) }}</div>
+                            {{--
+                            @if(filled($car->lot))
+                                <div class="text-address">
+                                    <i class="icon-map-1-1"></i>
+                                    <p>Лот № {{ $car->lot }}</p>
+                                </div>
+                            @endif
+                            --}}
                         </div>
                         <div class="box-2 t-al-right">
+                            {{--
                             <div class="icon-boxs flex">
                                 <a href="#">
                                     <i class="icon-heart-1-1"></i>
@@ -63,163 +74,202 @@
                                     <span>Сравнить</span>
                                 </a>
                             </div>
-                            <div class="price-wrap flex">
-                                @if($car->price_russia && $car->price_china)
-                                    <p class="price-sale">{{ number_format($car->price_russia, 0, ',', ' ') }} ₽</p>
-                                    <p class="price">{{ number_format($car->price_china * 12, 0, ',', ' ') }} ₽*</p>
-                                @elseif($car->price_russia)
-                                    <p class="price-sale">{{ number_format($car->price_russia, 0, ',', ' ') }} ₽</p>
-                                @elseif($car->price_china)
-                                    <p class="price-sale">{{ number_format($car->price_china, 0, ',', ' ') }} ¥</p>
-                                @endif
-                            </div>
+                            --}}
+                            @if($car->currentPriceAmount() || $car->oldPriceAmount())
+                                <div class="price-wrap flex">
+                                    @if($car->currentPriceAmount())
+                                        <p class="price-sale">{{ number_format($car->currentPriceAmount(), 0, ',', ' ') }} {{ $car->currentPriceCurrency() }}</p>
+                                    @endif
+                                    @if($car->oldPriceAmount())
+                                        <p class="price">{{ number_format($car->oldPriceAmount(), 0, ',', ' ') }} ₽</p>
+                                    @endif
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
 
+            @php
+                $carImages = $car->visibleImages();
+            @endphp
+            @if($carImages->isNotEmpty())
             <!-- ГАЛЕРЕЯ (два Swiper: основной и миниатюры) -->
             <div class="row">
                 <div class="col-lg-12">
                     <div class="gallary-property-details">
                         <div class="swiper property-gallary2">
                             <div class="swiper-wrapper">
-                                @foreach($car->images as $image)
+                                @foreach($carImages as $image)
                                     <div class="swiper-slide">
                                         <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $car->title }}">
                                     </div>
                                 @endforeach
                             </div>
-                            <div class="swiper-button-next"></div>
-                            <div class="swiper-button-prev"></div>
+                            @if($carImages->count() > 1)
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
+                            @endif
                         </div>
-                        <div class="swiper property-gallary">
-                            <div class="swiper-wrapper">
-                                @foreach($car->images as $image)
-                                    <div class="swiper-slide">
-                                        <img src="{{ asset('storage/' . $image->path) }}" alt="thumb">
-                                    </div>
-                                @endforeach
+                        @if($carImages->count() > 1)
+                            <div class="swiper property-gallary">
+                                <div class="swiper-wrapper">
+                                    @foreach($carImages as $image)
+                                        <div class="swiper-slide">
+                                            <img src="{{ asset('storage/' . $image->path) }}" alt="thumb">
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
+            @endif
 
             <div class="row">
                 <div class="col-lg-8 col-md-12">
                     <div class="post-property">
-                        <!-- Описание -->
-                        <div class="wrap-description wrap-style">
-                            <h4 class="title">Описание</h4>
-                            <p>{{ $car->description ?? 'Нет описания' }}</p>
-                        </div>
+                        @if(filled($car->description))
+                            <div class="wrap-description wrap-style">
+                                <h4 class="title">Описание</h4>
+                                <p>{{ $car->description }}</p>
+                            </div>
+                        @endif
 
-                        <!-- Характеристики (Car Overview) -->
+                        @php
+                            $hasEngine = filled($car->engine_type) || filled($car->engine_volume) || filled($car->engine_power) || filled($car->engine_power_30min);
+                            $hasOverview = filled($car->year) || $car->mileage !== null || $hasEngine
+                                || filled($car->color) || filled($car->transmission) || filled($car->drive)
+                                || filled($car->lot);
+                        @endphp
+                        @if($hasOverview)
                         <div class="wrap-car-overview wrap-style">
                             <h4 class="title">Основные характеристики</h4>
                             <div class="listing-info">
                                 <div class="row">
-                                    <div class="col-xl-6 col-md-6 item">
-                                        <div class="inner listing-infor-box">
-                                            <div class="icon"><i class="icon-Vector5"></i></div>
-                                            <div class="content-listing-info">
-                                                <span class="listing-info-title">Год выпуска:</span>
-                                                <p class="listing-info-value">{{ $car->year }}@if($car->month) / {{ $car->month }}@endif</p>
+                                    @if(filled($car->year))
+                                        <div class="col-xl-6 col-md-6 item">
+                                            <div class="inner listing-infor-box">
+                                                <div class="icon"><i class="icon-Vector5"></i></div>
+                                                <div class="content-listing-info">
+                                                    <span class="listing-info-title">Год выпуска:</span>
+                                                    <p class="listing-info-value">{{ $car->year }}@if($car->month) / {{ $car->month }}@endif</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-xl-6 col-md-6 item">
-                                        <div class="inner listing-infor-box">
-                                            <div class="icon"><i class="icon-dashboard-2"></i></div>
-                                            <div class="content-listing-info">
-                                                <span class="listing-info-title">Пробег:</span>
-                                                <p class="listing-info-value">{{ number_format($car->mileage, 0, ',', ' ') }} км</p>
+                                    @endif
+                                    @if($car->mileage !== null)
+                                        <div class="col-xl-6 col-md-6 item">
+                                            <div class="inner listing-infor-box">
+                                                <div class="icon"><i class="icon-dashboard-2"></i></div>
+                                                <div class="content-listing-info">
+                                                    <span class="listing-info-title">Пробег:</span>
+                                                    <p class="listing-info-value">{{ number_format($car->mileage, 0, ',', ' ') }} км</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-xl-6 col-md-6 item">
-                                        <div class="inner listing-infor-box">
-                                            <div class="icon"><i class="icon-engine-1"></i></div>
-                                            <div class="content-listing-info">
-                                                <span class="listing-info-title">Двигатель:</span>
-                                                <p class="listing-info-value">
-                                                    @switch($car->engine_type)
-                                                        @case('elektromobil') Электромобиль @break
-                                                        @case('benzin') Бензин @break
-                                                        @case('diesel') Дизель @break
-                                                        @case('gibrid') Гибрид @break
-                                                        @default {{ $car->engine_type }}
-                                                    @endswitch
-                                                    @if($car->engine_volume) , {{ $car->engine_volume }} см³ @endif
-                                                    @if($car->engine_power) , {{ $car->engine_power }} кВт @endif
-                                                </p>
+                                    @endif
+                                    @if($hasEngine)
+                                        <div class="col-xl-6 col-md-6 item">
+                                            <div class="inner listing-infor-box">
+                                                <div class="icon"><i class="icon-engine-1"></i></div>
+                                                <div class="content-listing-info">
+                                                    <span class="listing-info-title">Двигатель:</span>
+                                                    <p class="listing-info-value">
+                                                        @if(filled($car->engine_type))
+                                                            @switch($car->engine_type)
+                                                                @case('elektromobil') Электромобиль @break
+                                                                @case('benzin') Бензин @break
+                                                                @case('diesel') Дизель @break
+                                                                @case('gibrid') Гибрид @break
+                                                                @default {{ $car->engine_type }}
+                                                            @endswitch
+                                                        @endif
+                                                        @if(filled($car->engine_volume)){{ filled($car->engine_type) ? ', ' : '' }}{{ $car->engine_volume }} см³ @endif
+                                                        @if(filled($car->engine_power)){{ (filled($car->engine_type) || filled($car->engine_volume)) ? ', ' : '' }}{{ $car->engine_power }} кВт @endif
+                                                        @if(filled($car->engine_power_30min)), {{ $car->engine_power_30min }} кВт (30 мин) @endif
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-xl-6 col-md-6 item">
-                                        <div class="inner listing-infor-box">
-                                            <div class="icon"><i class="icon-Format-color-fill"></i></div>
-                                            <div class="content-listing-info">
-                                                <span class="listing-info-title">Цвет:</span>
-                                                <p class="listing-info-value">{{ $car->color ?? 'Не указан' }}</p>
+                                    @endif
+                                    @if(filled($car->color))
+                                        <div class="col-xl-6 col-md-6 item">
+                                            <div class="inner listing-infor-box">
+                                                <div class="icon"><i class="icon-Format-color-fill"></i></div>
+                                                <div class="content-listing-info">
+                                                    <span class="listing-info-title">Цвет:</span>
+                                                    <p class="listing-info-value">{{ $car->color }}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-xl-6 col-md-6 item">
-                                        <div class="inner listing-infor-box">
-                                            <div class="icon"><i class="icon-Group-22"></i></div>
-                                            <div class="content-listing-info">
-                                                <span class="listing-info-title">Коробка передач:</span>
-                                                <p class="listing-info-value">
-                                                    @switch($car->transmission)
-                                                        @case('automatic') Автомат @break
-                                                        @case('mechanical') Механика @break
-                                                        @case('variator') Вариатор @break
-                                                        @case('robot') Робот @break
-                                                        @default {{ $car->transmission }}
-                                                    @endswitch
-                                                </p>
+                                    @endif
+                                    @if(filled($car->transmission))
+                                        <div class="col-xl-6 col-md-6 item">
+                                            <div class="inner listing-infor-box">
+                                                <div class="icon"><i class="icon-Group-22"></i></div>
+                                                <div class="content-listing-info">
+                                                    <span class="listing-info-title">Коробка передач:</span>
+                                                    <p class="listing-info-value">
+                                                        @switch($car->transmission)
+                                                            @case('automatic') Автомат @break
+                                                            @case('mechanical') Механика @break
+                                                            @case('variator') Вариатор @break
+                                                            @case('robot') Робот @break
+                                                            @default {{ $car->transmission }}
+                                                        @endswitch
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-xl-6 col-md-6 item">
-                                        <div class="inner listing-infor-box">
-                                            <div class="icon"><i class="icon-steering-wheel-1"></i></div>
-                                            <div class="content-listing-info">
-                                                <span class="listing-info-title">Привод:</span>
-                                                <p class="listing-info-value">
-                                                    @switch($car->drive)
-                                                        @case('peredniy') Передний @break
-                                                        @case('zadniy') Задний @break
-                                                        @case('4wd') Полный 4WD @break
-                                                        @default {{ $car->drive }}
-                                                    @endswitch
-                                                </p>
+                                    @endif
+                                    @if(filled($car->drive))
+                                        <div class="col-xl-6 col-md-6 item">
+                                            <div class="inner listing-infor-box">
+                                                <div class="icon"><i class="icon-steering-wheel-1"></i></div>
+                                                <div class="content-listing-info">
+                                                    <span class="listing-info-title">Привод:</span>
+                                                    <p class="listing-info-value">
+                                                        @switch($car->drive)
+                                                            @case('peredniy') Передний @break
+                                                            @case('zadniy') Задний @break
+                                                            @case('4wd') Полный 4WD @break
+                                                            @default {{ $car->drive }}
+                                                        @endswitch
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-xl-6 col-md-6 item">
-                                        <div class="inner listing-infor-box">
-                                            <div class="icon"><i class="icon-Vector-13"></i></div>
-                                            <div class="content-listing-info">
-                                                <span class="listing-info-title">Лот:</span>
-                                                <p class="listing-info-value">{{ $car->lot }}</p>
+                                    @endif
+                                    @if(filled($car->lot))
+                                        <div class="col-xl-6 col-md-6 item">
+                                            <div class="inner listing-infor-box">
+                                                <div class="icon"><i class="icon-Vector-13"></i></div>
+                                                <div class="content-listing-info">
+                                                    <span class="listing-info-title">Лот:</span>
+                                                    <p class="listing-info-value">{{ $car->lot }}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-xl-6 col-md-6 item">
-                                        <div class="inner listing-infor-box">
-                                            <div class="icon"><i class="icon-Vector-13"></i></div>
-                                            <div class="content-listing-info">
-                                                <span class="listing-info-title">Источник:</span>
-                                                <p class="listing-info-value">{{ $car->source_site ?? 'che168.com' }}</p>
+                                    @endif
+                                    {{--
+                                    @if(filled($car->source_site))
+                                        <div class="col-xl-6 col-md-6 item">
+                                            <div class="inner listing-infor-box">
+                                                <div class="icon"><i class="icon-Vector-13"></i></div>
+                                                <div class="content-listing-info">
+                                                    <span class="listing-info-title">Источник:</span>
+                                                    <p class="listing-info-value">{{ $car->source_site }}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
+                                    --}}
                                 </div>
                             </div>
                         </div>
+                        @endif
 
                         <!-- Дополнительные опции (если нужно выводить особенности) – можно оставить пустым или убрать -->
                         <div class="wrap-car-feature wrap-style">
@@ -238,18 +288,19 @@
                             </div>
                         </div>
 
+                        @php
+                            $groupedAttributes = $car->carAttributes
+                                ->filter(fn ($attribute) => $attribute->hasDisplayValue())
+                                ->groupBy(function ($attribute) {
+                                    return $attribute->display_name ?: 'Основные характеристики';
+                                });
+                        @endphp
+                        @if($groupedAttributes->isNotEmpty())
                         <div class="car-characteristics">
 
                             <h3 class="car-characteristics-title">
                                 Характеристики автомобиля
                             </h3>
-
-                            @php
-                                $groupedAttributes = $car->carAttributes
-                                    ->groupBy(function ($attribute) {
-                                        return $attribute->display_name ?: 'Основные характеристики';
-                                    });
-                            @endphp
 
                             @foreach($groupedAttributes as $groupName => $attributes)
 
@@ -284,6 +335,7 @@
                             @endforeach
 
                         </div>
+                        @endif
                         <!-- Карта – можно оставить как есть или убрать, если не нужна -->
                         <div class="wrap-car-location wrap-style">
                             <h4 class="title">Расположение</h4>

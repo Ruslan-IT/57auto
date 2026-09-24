@@ -15,7 +15,7 @@ import path from 'path';
  * 100 = тест
  * 1500 = полный запуск
  */
-const MAX_CARS = 10;
+const MAX_CARS = 5;
 
 
 /*
@@ -389,6 +389,19 @@ function cleanText(value) {
         )
         .trim();
 
+}
+
+function cleanTitle(value) {
+    const title = cleanText(value);
+
+    if (!title) {
+        return '';
+    }
+
+    return title
+        .replace(/\s*[,.]?\s*лот\s*№\s*[^\s,]+/giu, '')
+        .replace(/\s{2,}/g, ' ')
+        .replace(/[ \t,]+$/g, '');
 }
 
 
@@ -1568,7 +1581,7 @@ async function processCar(
 
 
         title =
-            cleanText(
+            cleanTitle(
                 title
             );
 
@@ -1799,7 +1812,7 @@ async function processCar(
         parsed.lot,
 
         title:
-        title,
+        cleanTitle(title),
 
         url:
         car.url,

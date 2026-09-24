@@ -103,6 +103,15 @@ class FilterController extends Controller
 
             }
 
+
+          /*  dd([
+                'request_category' => $request->input('category_id'),
+                'count_category_5' => Car::where('category_id', 5)->count(),
+                'cars_category_5' => Car::where('category_id', 5)
+                    ->get(['id', 'category_id', 'title'])
+                    ->toArray(),
+            ]);*/
+
             /*
              * Получаем автомобили.
              */

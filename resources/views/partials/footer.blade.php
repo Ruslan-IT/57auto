@@ -3,6 +3,7 @@
 
     <div class="themesflat-container">
 
+        @unless(request()->routeIs('about.index'))
         <div class="row footer-top">
 
             <div class="col-lg-6 col-md-12 col-12 pd-r80">
@@ -17,13 +18,14 @@
 
             <div class="col-lg-6 col-md-12 col-12 t-al-right pt-20">
 
-                <a href="#home_page_contact" class="btn-sell">
+                <a href="#request-modal" class="btn-sell" data-bs-toggle="modal" data-bs-target="#request-modal">
                     Оставить заявку
                 </a>
 
             </div>
 
         </div>
+        @endunless
 
         <div class="row footer-main">
 
@@ -95,7 +97,7 @@
                         <li><a href="#">Доставка</a></li>
                         <li><a href="#">Растаможка</a></li>
                         <li><a href="#">Контакты</a></li>
-                        <li><a href="#">Политика конфиденциальности</a></li>
+                        <li><a href="{{ route('legal.privacy') }}">Политика конфиденциальности</a></li>
                     </ul>
 
                 </div>
@@ -209,11 +211,11 @@
                 <ul class="bottom-bar-menu">
 
                     <li>
-                        <a href="#">Политика конфиденциальности</a>
+                        <a href="{{ route('legal.privacy') }}">Политика конфиденциальности</a>
                     </li>
 
                     <li>
-                        <a href="#">Пользовательское соглашение</a>
+                        <a href="{{ route('legal.agreement') }}">Пользовательское соглашение</a>
                     </li>
 
                 </ul>

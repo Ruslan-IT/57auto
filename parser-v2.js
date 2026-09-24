@@ -56,6 +56,20 @@ function cleanString(value) {
     return result || null;
 }
 
+function cleanTitle(value) {
+    const title = cleanString(value);
+
+    if (!title) {
+        return null;
+    }
+
+    return title
+        .replace(/\s*[,.]?\s*лот\s*№\s*[^\s,]+/giu, '')
+        .replace(/\s{2,}/g, ' ')
+        .replace(/[ \t,]+$/g, '')
+        || null;
+}
+
 
 /*
  * Получаем число из строки.
@@ -1070,7 +1084,7 @@ for (
         sourceLot,
 
         title:
-            cleanString(
+            cleanTitle(
                 car.title
             ),
 
@@ -1207,7 +1221,7 @@ const importCars =
             car.source_lot,
 
             title:
-            car.title,
+            cleanTitle(car.title),
 
             url:
             car.url,

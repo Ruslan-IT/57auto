@@ -15,12 +15,12 @@ import path from 'path';
  *
  * const MAX_CARS = 100;
  */
-const MAX_CARS = 5000;
+const MAX_CARS =1005;
 
 /*
  * Стартовая страница каталога.
  */
-const START_URL = 'https://revocars.ru/china-used/';
+const START_URL = 'https://revocars.ru/china-used/?eng_v_from=700&eng_v_to=1600&eng_type=benzin';
 
 /*
  * Папка результатов.
@@ -404,7 +404,10 @@ function cleanText(value) {
             /*
              * Формируем URL страницы.
              */
-            const url = currentPage === 1 ? START_URL : `https://revocars.ru/china-used/?page=${currentPage}`;
+            const url =
+                currentPage === 1
+                    ? START_URL
+                    : `https://revocars.ru/china-used/?page=${currentPage}&eng_v_from=700&eng_v_to=1600&eng_type=benzin`;
 
             console.log('');
 

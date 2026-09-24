@@ -62,7 +62,7 @@
                             <input type="hidden" name="price_min" id="price_min" value="0">
                             <input type="hidden" name="price_max" id="price_max" value="10000000">
                             <span>от <span id="price-min-display">0</span> ₽</span>
-                            <span>до <span id="price-max-display">10 000 000</span> ₽</span>
+                            <span>до <span id="price-max-display">338 000 000</span> ₽</span>
                         </div>
                         </div>
                     </div>

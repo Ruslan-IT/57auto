@@ -54,16 +54,6 @@
                             🇨🇳 Китай
                         </a>
 
-                        <a
-                            href="{{ route('calculator.index', 'uae') }}"
-                            class="btn px-4 py-2 rounded-pill shadow-sm
-                        {{ $settings->country == 'uae'
-                            ? 'btn-danger'
-                            : 'btn-outline-danger' }}"
-                        >
-                            🇦🇪 ОАЭ
-                        </a>
-
                     </div>
 
                 </div>

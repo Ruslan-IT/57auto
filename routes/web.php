@@ -8,6 +8,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FilterController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\LegalPageController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WebhookController;
@@ -57,7 +58,10 @@ Route::post('/cars/contact', [FormController::class, 'submit'])->name('cars.cont
 Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
 
 Route::get('/blog', [BlogController::class, 'index'])->name('blogs.index');
-Route::get('/blog-single', [BlogController::class, 'show'])->name('blogs.show');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blogs.show');
+
+Route::get('/privacy-policy', [LegalPageController::class, 'privacy'])->name('legal.privacy');
+Route::get('/user-agreement', [LegalPageController::class, 'agreement'])->name('legal.agreement');
 
 
 Route::get('/about', [AboutController::class, 'index'])->name('about.index');
@@ -92,7 +96,7 @@ Route::get('/calculator/{country}', [CalculatorController::class, 'index']) ->na
 
 
 Route::view('/offer', 'legal.offer');
-Route::view('/privacy', 'legal.privacy');
+Route::redirect('/privacy', '/privacy-policy');
 //Route::view('/contacts', 'legal.contact');
 
 require __DIR__.'/auth.php';

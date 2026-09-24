@@ -39,6 +39,10 @@ class FormController extends Controller
                 $subject = 'Заявка по автомобилю';
                 break;
 
+            case 'site_request':
+                $subject = 'Заявка с сайта';
+                break;
+
             default:
                 $subject = 'Новая заявка';
         }
@@ -53,7 +57,7 @@ class FormController extends Controller
 
             $request->validate([
                 'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'email', 'max:255'],
+                'email' => ['nullable', 'email', 'max:255'],
                 'phone' => ['required', 'string', 'max:50'],
                 'message' => ['nullable', 'string', 'max:5000'],
                 'car_id' => ['required', 'integer', 'exists:cars,id'],
@@ -71,6 +75,18 @@ class FormController extends Controller
             $data['car_url'] = route('car.show', [
                 'slug' => $car->slug,
             ]);
+        }
+
+        if ($type === 'site_request') {
+            $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'phone' => ['required', 'string', 'max:50'],
+                'message' => ['required', 'string', 'max:5000'],
+            ]);
+        }
+
+        if (!$request->filled('car_url')) {
+            $data['car_url'] = $request->headers->get('referer') ?: url()->previous();
         }
 
         /*
@@ -95,20 +111,24 @@ class FormController extends Controller
 
         $settings = Setting::first();
 
-        Mail::send(
-            'emails.form',
-            [
-                'data' => $data,
-                'type' => $type,
-            ],
-            function ($message) use ($settings, $subject) {
+        try {
+            Mail::send(
+                'emails.form',
+                [
+                    'data' => $data,
+                    'type' => $type,
+                ],
+                function ($message) use ($settings, $subject) {
 
-                $message
-                    ->to($settings->email)
-                    ->subject($subject);
+                    $message
+                        ->to($settings->email)
+                        ->subject($subject);
 
-            }
-        );
+                }
+            );
+        } catch (\Throwable $e) {
+            report($e);
+        }
 
         return back()->with(
             'success',

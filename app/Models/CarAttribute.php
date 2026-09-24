@@ -23,6 +23,31 @@ class CarAttribute extends Model
         return $this->belongsTo(Car::class);
     }
 
+    public function hasDisplayValue(): bool
+    {
+        $value = is_string($this->value) ? trim($this->value) : $this->value;
+
+        if ($value === null || $value === '') {
+            return false;
+        }
+
+        $empty = [
+            '-',
+            '—',
+            '–',
+            'null',
+            'undefined',
+            'none',
+            'n/a',
+            'не указано',
+            'не указан',
+            'не указана',
+            'нет',
+        ];
+
+        return !in_array(mb_strtolower((string) $value), $empty, true);
+    }
+
     // Аксессор для красивого отображения
     public function getDisplayValueAttribute()
     {
