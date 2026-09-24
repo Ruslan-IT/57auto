@@ -400,6 +400,7 @@ function cleanTitle(value) {
 
     return title
         .replace(/\s*[,.]?\s*лот\s*№\s*[^\s,]+/giu, '')
+        .replace(/(\d{4})\s*г\./gu, '$1')
         .replace(/\s{2,}/g, ' ')
         .replace(/[ \t,]+$/g, '');
 }

@@ -32,6 +32,11 @@ class Car extends Model
         });
     }
 
+    public function getTitleAttribute(?string $value): ?string
+    {
+        return static::sanitizeTitle($value);
+    }
+
     public function setTitleAttribute(?string $value): void
     {
         $this->attributes['title'] = static::sanitizeTitle($value);
@@ -45,6 +50,7 @@ class Car extends Model
 
         $clean = trim($title);
         $clean = preg_replace('~\s*[,.]?\s*лот\s*№\s*[^\s,]+~iu', '', $clean) ?? $clean;
+        $clean = preg_replace('~(\d{4})\s*г\.~u', '$1', $clean) ?? $clean;
         $clean = preg_replace('/\s{2,}/u', ' ', $clean) ?? $clean;
         $clean = rtrim($clean, " \t,");
 
