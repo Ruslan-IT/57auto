@@ -55,7 +55,7 @@
                 <span class="sub-title">{{ $car->brand?->name }} {{ $car->model?->name }}</span>
                 <h6 class="title">
                     <a href="{{ route('car.show', $car->slug) }}">
-                        {{ $car->title ?? $car->brand?->name . ' ' . $car->model?->name . ' ' . $car->year }}
+                        {{ $car->title ?? $car->brand?->name . ' ' . $car->model?->name }}
                     </a>
                 </h6>
 

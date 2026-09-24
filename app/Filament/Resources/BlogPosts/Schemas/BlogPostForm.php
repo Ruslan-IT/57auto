@@ -38,6 +38,19 @@ class BlogPostForm
                     ->image()
                     ->disk('public')
                     ->directory('blog')
+                    ->visibility('public')
+                    ->fetchFileInformation(false)
+                    ->getUploadedFileUsing(function (FileUpload $component, string $file): ?array {
+                        $url = $component->getDisk()->url($file);
+                        $path = parse_url($url, PHP_URL_PATH);
+
+                        return [
+                            'name' => basename($file),
+                            'size' => 0,
+                            'type' => null,
+                            'url' => $path ?: $url,
+                        ];
+                    })
                     ->imageResizeMode(null)
                     ->columnSpanFull(),
                 Textarea::make('excerpt')
