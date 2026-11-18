@@ -1,9 +1,9 @@
 @extends('layouts.main')
 
 
-@section('seo_title', '')
-@section('seo_description', '')
-@section('seo_keywords', '')
+@section('seo_title', 'Калькулятор растаможки — InterCar')
+@section('seo_description', 'Рассчитайте стоимость автомобиля из Китая или Кореи с учётом доставки и растаможки. Калькулятор InterCar.')
+@section('seo_keywords', 'калькулятор растаможки, авто из китая, авто из кореи, InterCar')
 
 
 @section('content')

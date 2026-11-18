@@ -1,9 +1,9 @@
 @extends('layouts.main')
 
 
-@section('seo_title', '')
-@section('seo_description', '')
-@section('seo_keywords', '')
+@section('seo_title', 'О компании — InterCar')
+@section('seo_description', 'InterCar помогает подобрать и привезти автомобили из Китая и Кореи. Прозрачный расчёт, проверка лотов и сопровождение сделки.')
+@section('seo_keywords', 'о компании InterCar, подбор автомобилей, авто из китая, авто из кореи')
 
 
 @section('content')

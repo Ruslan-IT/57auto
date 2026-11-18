@@ -6,26 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @yield('meta') {{--  ВАЖНО --}}
 
-    <title>@yield('seo_title', 'SQL тренажер — Практика SQL онлайн')</title>
+    @php
+        $seoTitle = trim($__env->yieldContent('seo_title')) ?: 'Подбор автомобилей под ключ — InterCar';
+        $seoDescription = trim($__env->yieldContent('seo_description')) ?: 'InterCar — подбор автомобилей из Китая и Кореи под ваш бюджет. Помогаем выбрать машину, проверить варианты и организовать доставку с растаможкой.';
+        $seoKeywords = trim($__env->yieldContent('seo_keywords')) ?: 'подбор автомобилей, автомобили из китая, автомобили из кореи, InterCar';
+        $seoImage = trim($__env->yieldContent('seo_image')) ?: asset('assets/images/logo/logo2@.png');
+        $seoImageAlt = trim($__env->yieldContent('seo_image_alt')) ?: 'InterCar — подбор автомобилей';
+    @endphp
 
-    <meta name="description" content="@yield('seo_description', '')">
-    <meta name="keywords" content="@yield('seo_keywords', '')">
-    <meta name="author" content="{{ config('app.name') }}">
+    <title>{{ $seoTitle }}</title>
+
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ $seoKeywords }}">
+    <meta name="author" content="InterCar">
     <link rel="canonical" href="{{ url()->current() }}">
 
     <!-- Open Graph (Facebook / Telegram / LinkedIn) -->
-    <meta property="og:title" content="@yield('seo_title', config('app.name'))">
-    <meta property="og:description" content="@yield('seo_description', '')">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:image" content="@yield('seo_image', asset('images/seo-preview.jpg'))">
-    <meta property="og:site_name" content="{{ config('app.name') }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta property="og:image:width" content="2155">
+    <meta property="og:image:height" content="730">
+    <meta property="og:image:alt" content="{{ $seoImageAlt }}">
+    <meta property="og:site_name" content="InterCar">
+    <meta property="og:locale" content="ru_RU">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('seo_title', config('app.name'))">
-    <meta name="twitter:description" content="@yield('seo_description', '')">
-    <meta name="twitter:image" content="@yield('seo_image', asset('logo2.png'))">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
+    <meta name="twitter:image:alt" content="{{ $seoImageAlt }}">
 
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('favicon1 .png') }}" type="image/png">

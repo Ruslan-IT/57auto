@@ -1,11 +1,33 @@
 
-
 @extends('layouts.main')
 
+@php
+    $carSeoName = trim((string) ($car->title ?: trim(($car->brand?->name ?? '') . ' ' . ($car->model?->name ?? '') . ' ' . ($car->year ?? ''))));
+    $carSeoParts = array_values(array_filter([
+        $car->year ? ($car->year . ' г.') : null,
+        filled($car->mileage) ? (number_format((int) $car->mileage, 0, ',', ' ') . ' км') : null,
+        $car->engine_type_label ?? (filled($car->engine_type) ? $car->engine_type : null),
+        $car->transmission_label ?? (filled($car->transmission) ? $car->transmission : null),
+        $car->currentPriceAmount()
+            ? (number_format($car->currentPriceAmount(), 0, ',', ' ') . ' ' . $car->currentPriceCurrency())
+            : null,
+    ]));
+    $carSeoDescription = $carSeoName
+        . ' — автомобиль в каталоге InterCar'
+        . ($carSeoParts ? (': ' . implode(', ', $carSeoParts)) : '')
+        . '. Характеристики, фотографии и сопровождение покупки.';
+@endphp
 
-@section('seo_title', 'SQL тренажёр онлайн — практика SQL, задачи и обучение с нуля - CodePractice')
-@section('seo_description', 'Интерактивный SQL тренажёр для практики. Решайте задачи по SQL онлайн, изучайте запросы MySQL и прокачивайте навыки с нуля до уровня аналитика - CodePractice')
-@section('seo_keywords', 'sql тренажер, sql практика, задачи по sql, обучение sql, sql онлайн, mysql запросы - CodePractice')
+@section('seo_title', $carSeoName . ' — характеристики и фото | InterCar')
+@section('seo_description', $carSeoDescription)
+@section('seo_keywords', trim(implode(', ', array_filter([
+    $car->brand?->name,
+    $car->model?->name,
+    $car->year,
+    'купить авто',
+    'подбор автомобиля',
+    'InterCar',
+]))))
 
 
 @section('content')
