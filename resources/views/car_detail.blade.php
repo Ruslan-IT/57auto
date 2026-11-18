@@ -371,7 +371,7 @@
                         <div class="author-contact-wrap">
 
                             <div class="author-contact-info">
-                                <h4 class="name">Автосалон</h4>
+                                <h4 class="name"></h4>
                                 <p class="desc">Официальный дилер</p>
                                 <span class="number-phone">
                                 <i class="icon-Group-14"></i>
