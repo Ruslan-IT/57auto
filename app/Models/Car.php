@@ -121,7 +121,10 @@ class Car extends Model
                 return false;
             }
 
-            return is_file(storage_path('app/public/' . $path));
+            // На хостинге файлы часто лежат в public/storage, а storage:link может
+            // быть не настроен — проверяем оба расположения.
+            return is_file(storage_path('app/public/' . $path))
+                || is_file(public_path('storage/' . $path));
         })->values();
     }
 }
