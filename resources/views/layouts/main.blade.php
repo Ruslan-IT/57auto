@@ -43,7 +43,7 @@
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('favicon1 .png') }}" type="image/png">
 
-    <link rel="stylesheet" type="text/css" href="/assets/css/style-2.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/style-4.css">
 
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="/assets/images/logo/favicon.png">

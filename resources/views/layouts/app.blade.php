@@ -16,7 +16,7 @@
         <link rel="icon" href="{{ asset('favicon1.png') }}" type="image/png">
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+        <link rel="stylesheet" type="text/css" href="/assets/css/style-4.css">
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
