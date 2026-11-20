@@ -35,7 +35,7 @@
             <!-- Единая форма фильтра (скрытая категория будет меняться при смене таба) -->
             <form id="filter-form" class="mt-4">
                 @csrf
-                <div class="inner-group grid d-flex gap-3  align-items-end">
+                <div class="inner-group grid d-flex fl__my gap-3  align-items-end">
                     <div class="form-group" style="min-width: 150px;">
                         {{--<label>Марка</label>--}}
                         <select name="brand_id" id="brand-select" class="form-select nice-select">

@@ -10473,3 +10473,7 @@ h2 {
     font-family: "Plus Jakarta Sans", sans-serif;
     text-transform: none!important;
 }
+
+.d-flex.fl__my{
+    flex-direction: column;
+}
